@@ -1,0 +1,369 @@
+\documentclass[12pt]{ucsddissertation}
+% mathptmx is a Times Roman look-alike (don't use the times package)
+% It isn't clear if Times is required. The OGS manual lists several
+% "standard fonts" but never says they need to be used.
+\usepackage{mathptmx}
+\usepackage[NoDate]{currvita}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{ragged2e}
+\usepackage{microtype}
+\usepackage[breaklinks=true,pdfborder={0 0 0}]{hyperref}
+\usepackage{graphicx}
+\AtBeginDocument{%
+	\settowidth\cvlabelwidth{\cvlabelfont 0000--0000}%
+}
+
+% OGS recommends increasing the margins slightly.
+\increasemargins{.1in}
+
+% These are just for testing/examples, delete them
+\usepackage{trace}
+%\usepackage{showframe} % This package was just to see page margins
+\usepackage[english]{babel}
+\usepackage{blindtext}
+\overfullrule5pt
+% ---
+
+% Required information
+\title{This is the Title of My Dissertation}
+\author{My Full Legal Name}
+\degree{My Degree Title}{Doctor of Philosophy/Doctor of Musical
+Arts/\par Doctor of Education}
+\chair{Professor Eta Theta}
+\cochair{Professor Gamma Delta} % Optional
+\committee{Professor Lambda Kappa}
+\committee{Professor Iota Mu}
+\committee{Professor Epsilon Zeta}
+\degreeyear{2012}
+
+% Start the document
+\begin{document}
+% Begin with frontmatter and so forth
+\frontmatter
+\maketitle
+\makecopyright
+\makesignature
+% Optional
+\begin{dedication}
+\setsinglespacing
+\raggedright % It would be better to use \RaggedRight from ragged2e
+\parindent0pt\parskip\baselineskip
+In recognition of reading this manual before beginning to format the
+doctoral dissertation or master's thesis; for following the
+instructions written herein; for consulting with OGS Academic Affairs
+Advisers; and for not relying on other completed manuscripts, this
+manual is dedicated to all graduate students about to complete the
+doctoral dissertation or master's thesis.
+
+In recognition that this is my one chance to use whichever
+justification, spacing, writing style, text size, and/or textfont that
+I want to while still keeping my headings and margins consistent.
+\end{dedication}
+% Optional
+\begin{epigraph}
+\vskip0pt plus.5fil
+\setsinglespacing
+{\flushright
+True ease in writing comes from art, not chance,\\
+As those move easiest who have learn'd to dance.\\
+'T is not enough to no harshness gives offence,---\\
+The sound must seem an echo to the sense.
+
+\vskip\baselineskip
+\textit{Alexander Pope}\par}
+\vfil
+\begin{center}
+You write with ease to show your breeding,\\
+But easy writing's curst hard reading.
+
+\vskip\baselineskip
+\textit{Richard Brinsley Sheridan}
+\end{center}
+\vfil
+\noindent Writing, at its best, is a lonely life. Organizations for
+writers palliate the writer's loneliness, but I doubt if they improve
+his writing. He grows in public stature as he sheds his loneliness and
+often his work deteriorates. For he does his work alone and if he is a
+good enough writer he must face eternity, or the lack of it, each day.
+
+\vskip\baselineskip
+\hskip0pt plus1fil\textit{Ernest Hemingway}\hskip0pt plus4fil\null
+
+\vfil
+\end{epigraph}
+
+% Next comes the table of contents, list of figures, list of tables,
+% etc. If you have code listings, you can use \lstlistoflistings to
+% have it be produced here as well.
+\tableofcontents
+\listoffigures
+\listoftables
+
+% Preface
+\begin{preface}
+Almost nothing is said in the manual about the preface. There is no
+indication about how it is to be typeset. Given that, one is forced to
+simply typeset it and hope it is accepted.
+\end{preface}
+
+% Your fancy acks here. Keep in mind you need to ack each paper you
+% use. See the examples here.
+\begin{acknowledgements}
+I would like to acknowledge Professor Eta Theta for his support as the
+chair of my committee. Through multiple drafts and many long nights,
+his guidance has proved to be invaluable.
+
+I would also like to acknowledge the ``Smith Clan'' of lab~28, without
+whom my research would have no doubt taken fives times as long. It is
+their support that helped me in an immeasureable way.
+
+Chapter 2, in full, is a reprint of the material as it appears in
+Numerical Grid Generational in Computational Fluid Mechanics~2009.
+Smith, Laura; Smith, Jane~D., Pineridge Press,~2009. The dissertation
+author was the primary investigator and author of this paper.
+
+Chapter 3, in part, has been submitted for publication of the material
+as it may appear in Education Mechanics,~2009, Smith, Laura; Smith,
+Jane~D., Trailor Press,~2009. The dissertation author was the primary
+investigator and author of this paper.
+
+Chapter 5, in part is currently being prepared for submission for
+publication of the material. Smith, Laura; Smith, Jane~D\@. The
+dissertation author was the primary investigator and author of this
+material.
+\end{acknowledgements}
+
+% Stupid vita goes next
+\begin{vita}
+\noindent
+\begin{cv}{}
+\begin{cvlist}{}
+\item[1996] Bachelor of Arts, University of California, Berkeley
+\item[1996--2000] U.S. Marines
+\item[2000--2002] Teaching Assistant, Department of Mechanical
+Engineering\\University of California, San Diego
+\item[2002--2006] Research Assistant, University of California, San
+Diego
+\item[2010] Doctor of Philosophy, University of California, San Diego
+\end{cvlist}
+\end{cv}
+
+% This puts in the PUBLICATIONS header. Note that it appears inside
+% the vita environment. It is optional.
+\publications
+\noindent``Distributions of Control Points in a System for Analysis of Stress
+Distribution'' IRE Transactions of the I.R.E\@. Professional Group on
+Automatic Control, vol. AC-7, pp 272--289, September 2005
+
+% This puts in the FIELDS OF STUDY. Also inside vita and also
+% optional.
+\fieldsofstudy
+\noindent Major Field: Engineering (Specialization or Focused Studies)
+\vskip\baselineskip
+Studies in Applied Mathematics\par
+Professors Alpha Beta and Gamma Delta
+\vskip\baselineskip
+Studies in Mechanices\par
+Professors Epsilon Zeta and Eta Theta
+\vskip\baselineskip
+Studies in Electromagnetism\par
+Professors Iota Kappa and Lambda Mu
+\end{vita}
+
+% Put your maximum 350 word abstract here.
+\begin{dissertationabstract}
+The Abstract begins here. The abstract is limited to 350 words for a
+doctoral dissertation. It should consist of a short statement of the
+problem, a brief explanation of the methods and procedures employed in
+generating the data, and a condensed summary of the findings of the
+study. The abstract may continute onto a second page if necessary. The
+text of the abstract must be double spaced.
+\end{dissertationabstract}
+
+% This is where the main body of your dissertation goes!
+\mainmatter
+\chapter{An ordinary page}
+The purpose of this page is to illustrate an ordinary page of text in
+a doctoral dissertation or master's thesis. All pages of the doctoral
+dissertation or master's thesis must be kept within the margins of
+1.5'' on the left, 1'' on the right, 1'' on the top and 1.25'' on the
+bottom. All text must be double spaced except as indicated below.
+
+It is recommended that to increase the margins as paper can shift in a
+printer and as some photocopiers tend to increase the image being
+copied.
+
+The first line of each paragraph must be indented at least one 0.5''
+tab, as done here.
+
+This text is intended to be a part of the dissertation, for a doctoral
+student, or the thesis if you are receiving a master's degree, and now
+a quote is included here:
+\begin{quote}
+All quotes of more than six lines, even though this one is not, are to
+be indented 0.5'' from the left and 0.5'' from the right. These longer
+quotes are to be single spaced. Don't forget to adjust for proper
+spacing after the last line of the quoted material.
+\end{quote}
+The rest of the paragraph would continue as so.
+
+\chapter{Figures and Such}
+This demonstrates how OGS wants figures and tables formatted. For
+figures, the caption goes below the figure and ``Figure'' is in bold.
+See Figure~\ref{fig:zen}. Tables are formatted with the caption above
+the table. See Table~\ref{tab:bad}.
+
+Of course, Table~\ref{tab:bad} looks horrible. It should probably be
+formatted like Table~\ref{tab:good} instead.
+
+For facing caption pages, see Table~\ref{tab:facing}.
+\begin{figure}
+\centering
+\fbox{\parbox{.9\linewidth}{%
+	\noindent
+	{\Huge PHD ZEN}\par
+	\vskip.5in
+	\centerline{comic here}
+	\vskip.5in
+}}
+\caption[``Ph.D. Zen'']{Comic entitled ``Ph.D. Zen'' by Jorge Cham, 2005. Copyright
+has not been obtained and so it isn't displayed.}
+\label{fig:zen}
+\end{figure}
+
+\begin{table}
+\centering
+\caption[Electronic Dissertation Submission Rates]{Electronic
+Dissertation Submission Rates at UCSD, Fall 2005 and Winter 2006.
+(First two quarters that the program was available to all Ph.D.
+candidates not in a Joint Doctoral Program with SDSU.)}
+\label{tab:bad}
+\begin{tabular}{|*{5}{>{\centering\arraybackslash}m{.15\linewidth}|}}
+\hline
+&Ph.D.s awarded (Including Joint degrees) & Electronic submission of
+Dissertation & Paper Submission of Dissertation & Percentage of
+Electronic Submission\\
+\hline
+Fall\par 2005 & 84 & 37 & 47 & 44.05\%\\
+\hline
+Winter\par 2006 & 64 & 42 & 22 & 65.63\%\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\caption[Electronic Dissertation Submission Rates]{Electronic
+Dissertation Submission Rates at UCSD, Fall 2005 and Winter 2006.
+(First two quarters that the program was available to all Ph.D.
+candidates not in a Joint Doctoral Program with SDSU.)}
+\label{tab:good}
+\renewcommand\tabularxcolumn[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\begin{tabularx}{.9\linewidth}{lcccc}
+\toprule
+&\multicolumn{1}{X}{Ph.D.s awarded (Including Joint degrees)}
+&\multicolumn{1}{X}{Electronic submission of Dissertation}
+&\multicolumn{1}{X}{Paper Submission of Dissertation}
+&\multicolumn{1}{X}{Percentage of Electronic Submission}\\
+\midrule
+Fall 2005 & 84 & 37 & 47 & 44.05\%\\
+Winter 2006 & 64 & 42 & 22 & 65.63\%\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{facingcaption}{table}
+\caption[UCSD Gender Distribution]{University of
+California, San Diego Gender Distribution for the Campus Population,
+October~2005\\
+(http://assp.ucsd.edu/analytical/Campus\%20Population.shtml)\\
+\emph{(This is an example of a facing caption page, the next page is
+the example of the table/figure/etc.\ that corresponds to this
+caption. It is also an example of table/figure that is rotated 90
+degrees to fit the page.)}}
+\label{tab:facing}
+\renewcommand\tabularxcolumn[1]{>{\RaggedLeft\arraybackslash}p{#1}}
+\parindent=0pt
+\setbox0=\vbox{%
+\vsize\textwidth
+\hsize\textheight
+\linewidth\hsize
+\columnwidth\hsize
+\textwidth\hsize
+\textheight\vsize
+\begin{tabularx}{\linewidth}{lXXXXXX}
+\toprule
+& \multicolumn{2}{c}{\textbf{Women}}
+& \multicolumn{2}{c}{\textbf{Men}}
+& \multicolumn{2}{c}{\textbf{Total}}\\
+\cmidrule(l){2-3}\cmidrule(l){4-5}\cmidrule(l){6-7}
+\textbf{Population Segment}
+& \multicolumn{1}{c}{\textbf{N}} & \multicolumn{1}{c}{\textbf{\%}}
+& \multicolumn{1}{c}{\textbf{N}} & \multicolumn{1}{c}{\textbf{\%}}
+& \multicolumn{1}{c}{\textbf{N}} & \multicolumn{1}{c}{\textbf{\%}}\\
+\midrule
+Students & 12,987 & 51\% & 12,686 & 49\% & 25,673 & 100\%\\
+Employees & 9,943 & 56\% &  7,671 & 44\% & 17,614 & 100\%\\
+\addlinespace
+\hfill\textbf{Total} & \textbf{22,930} & \textbf{53\%} &
+\textbf{20,357} & \textbf{47\%} & \textbf{43,287} & \textbf{100\%}\\
+\bottomrule
+\end{tabularx}
+\singlespacing
+
+\emph{Notes}:
+\begin{enumerate}
+\item The counts shown below will differ from the official quarterly
+Registrar's registration report because 1) data for residents in the
+Schools of Medicine and Pharmacy and Pharmaceutical Science are
+excluded, and 2) registered, non-matriculated, visiting students are
+included.
+\item Student workers are excluded from employees; however emeritus
+faculty and others on recall status are included.
+\end{enumerate}
+
+Campus Planning. Analytical Studies and Space Planning\\
+31 January 2006
+}
+\centerline{\rotatebox{90}{\box0}}
+\end{facingcaption}
+
+% This will give us some more text
+\Blinddocument
+
+% Skipping a bunch of chapters
+\setcounter{chapter}{50}
+\chapter{Another chapter}
+\setcounter{figure}{73}
+\setcounter{table}{88}
+\begin{figure}
+\centering
+\fbox{\hbox to.8\linewidth{\hss Another figure\hss}}
+\caption{Another figure caption}
+\end{figure}
+\begin{table}
+\centering
+\caption{Another table caption}
+\begin{tabular}{ccc}
+\toprule
+X&Y&Z\\
+\midrule
+a&b&c\\
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{figure}
+\caption{ASDF fig}
+\end{figure}
+\begin{table}
+\caption{ASDF tab}
+\end{table}
+
+% Stuff at the end of the dissertation goes in the back matter
+\backmatter
+\bibliographystyle{plain} % Or whatever style you want like plainnat
+\bibliography{references}
+
+\end{document}
