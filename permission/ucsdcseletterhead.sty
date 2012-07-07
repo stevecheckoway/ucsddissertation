@@ -1,0 +1,98 @@
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesPackage{ucsdcseletterhead}
+	[2010/09/12 v1.4 UCSD CSE letterhead]
+\RequirePackage{graphics}
+
+\newif\ifuclh@atstart \uclh@atstarttrue
+\DeclareOption{notatstart}{\uclh@atstartfalse}
+\ProcessOptions\relax
+\ifuclh@atstart
+	\AtBeginDocument{\ucsdcseletterhead}
+\fi
+
+\newbox\uclh@box
+\setbox\uclh@box\vbox{
+	\hsize 7in
+	\def\rmdefault{ptm}\rmfamily
+	\skip0=4.5in
+	\skip2=1.63in
+	\skip4=7.5pt  % skip below top rule
+	\skip6=3.0pt  % skip above bottom rule
+	\skip8=8.0pt  % skip below bottom rule
+	\parindent\z@
+	\parskip\z@
+	\everypar{}
+	\fontsize\@xivpt\@xivpt\selectfont
+	\hb@xt@\hsize{UNIVERSITY OF CALIFORNIA, SAN DIEGO\hfill UCSD}
+	\vskip14.5\p@
+	\fontsize67\selectfont
+	\hb@xt@\hsize{%
+		\setbox\z@\hbox{%
+			\smash{\lower2.3\p@\hbox{%
+				\scalebox{3}{$\m@th\cdot$}%
+			}}%
+		}
+		\vtop{\hsize\skip0
+		      \hrule\par\vskip\skip4
+		      BERKELEY\copy\z@ DAVIS\copy\z@
+		      IRVINE\copy\z@ LOS ANGELES\copy\z@
+		      MERCED\copy\z@ RIVERSIDE\copy\z@
+		      SAN DIEGO\copy\z@ SAN FRANCISCO\par
+		      \vskip\skip6\hrule\par\vskip\skip8
+		      \fontsize89\selectfont
+		      DEPARTMENT OF COMPUTER SCIENCE \& ENGINEERING\par
+		      FAX: (858) 534-7029}%
+		\hfil
+		% Annoyingly, for compat with both graphics and
+		% graphicx, we need to use \resizebox explicitly.
+		% Use extra braces because \smash tramples on box0
+		{\smash{\lower.52in\hbox{\resizebox{.8in}{!}{%
+			\includegraphics{ucseal}}}}}%
+		\hfil
+		\vtop{\hsize\skip2
+			\setbox0\hbox{SANTA BARBARA\box0
+			SANTA CRUZ}
+			\hrule\par\vskip\skip4
+			\hfill \copy\z@\par
+			\vskip\skip6\hrule\par\vskip\skip8
+			\fontsize89\selectfont
+			\hfill \rlap{9500 GILMAN DR \# 0404}%
+			\hphantom{\copy\z@}\par
+			\hfill \rlap{LA JOLLA, CA 92093-0404}%
+			\hphantom{\box\z@}%
+		}%
+	}
+}
+\wd\uclh@box\z@
+
+\DeclareRobustCommand\ucsdcseletterhead{%
+	\clearpage
+	\begingroup
+		\skip\z@\voffset
+		\advance\skip\z@\topskip
+		\advance\skip\z@\topmargin
+		\advance\skip\z@\headheight
+		\advance\skip\z@\headsep
+		\advance\skip\z@-.5in
+		\setbox\z@\vbox to\z@{
+			\vss
+			\skip\tw@\if@twoside
+				\ifodd\c@page
+					\oddsidemargin
+				\else
+					\evensidemargin
+				\fi
+			\else
+				\oddsidemargin
+			\fi
+			\advance\skip\tw@.25in
+			\moveleft\skip\tw@\copy\uclh@box
+			\vskip\skip\z@
+		}
+		\advance\skip\z@-.5in
+		\dp\z@-\skip\z@
+		\box\z@
+		\nointerlineskip
+	\endgroup
+}
+\endinput
