@@ -31,8 +31,12 @@
 \author{My Full Legal Name}
 \degree{My Degree Title}{Doctor of Philosophy/Doctor of Musical
 Arts/\par Doctor of Education}
+% Each member of the committee should be listed as Professor Foo Bar.
+% If Professor is not the correct title for one, then titles should be
+% omitted entirely.
 \chair{Professor Eta Theta}
 \cochair{Professor Gamma Delta} % Optional
+% Your committee members (other than the chairs) must be in alphabetical order
 \committee{Professor Lambda Kappa}
 \committee{Professor Iota Mu}
 \committee{Professor Epsilon Zeta}
@@ -95,8 +99,9 @@ good enough writer he must face eternity, or the lack of it, each day.
 \end{epigraph}
 
 % Next comes the table of contents, list of figures, list of tables,
-% etc. If you have code listings, you can use \lstlistoflistings to
-% have it be produced here as well.
+% etc. If you have code listings, you can use \listoflistings (or
+% \lstlistoflistings) to have it be produced here as well. Same with
+% \listofalgorithms.
 \tableofcontents
 \listoffigures
 \listoftables
@@ -105,11 +110,13 @@ good enough writer he must face eternity, or the lack of it, each day.
 \begin{preface}
 Almost nothing is said in the manual about the preface. There is no
 indication about how it is to be typeset. Given that, one is forced to
-simply typeset it and hope it is accepted.
+simply typeset it and hope it is accepted. It is, however, optional
+and may be omitted.
 \end{preface}
 
 % Your fancy acks here. Keep in mind you need to ack each paper you
-% use. See the examples here.
+% use. See the examples here. In addition, each chapter ack needs to
+% be repeated at the end of the relevant chapter.
 \begin{acknowledgements}
 I would like to acknowledge Professor Eta Theta for his support as the
 chair of my committee. Through multiple drafts and many long nights,
@@ -218,7 +225,12 @@ the table. See Table~\ref{tab:bad}.
 Of course, Table~\ref{tab:bad} looks horrible. It should probably be
 formatted like Table~\ref{tab:good} instead.
 
-For facing caption pages, see Table~\ref{tab:facing}.
+For facing caption pages, see Table~\ref{tab:facing}. Of course,
+facing caption pages are vaguely ridiculous and my implementation of
+them in the class file is by far the most brittle part of the
+implementation. It's entirely possible that something has changed and
+these don't work at all. I implemented it merely for the challenge.
+
 \begin{figure}
 \centering
 \fbox{\parbox{.9\linewidth}{%
