@@ -409,9 +409,12 @@ command!}{Uh oh}}
 		\appto#5{\endgroup\newpage}%
 	}%
 }
-\ucsd@setuplistof{chap}{toc}\contentsname\chaptername\tableofcontents
+\ucsd@setuplistof{chap}{toc}\contentsname\@chapapp\tableofcontents
 \ucsd@setuplistof{fig}{lof}\listfigurename\figurename\listoffigures
 \ucsd@setuplistof{tab}{lot}\listtablename\tablename\listoftables
+
+% Handle \appendix in the table of contents
+\appto\appendix{\addtocontents{toc}{\def\string\@chapapp{\string\appendixname}}}
 % listings and algorithms are handled after the preamble
 \newcommand\ucsd@registerwithtocloft[3]{%
 	\begingroup
