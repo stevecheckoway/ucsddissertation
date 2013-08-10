@@ -233,8 +233,6 @@
 }
 \newcommand*\fieldsofstudy{%
 	\vskip\baselineskip
-	\csuse{phantomsection}%
-	\addcontentsline{toc}{chapter}{Fields of Study}%
 	\centerline{FIELDS OF STUDY}%
 	\vskip\baselineskip
 }
