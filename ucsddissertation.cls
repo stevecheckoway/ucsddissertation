@@ -379,7 +379,7 @@ command!}{Uh oh}}
 		\hfill
 		\MakeUppercase
 	}%
-	\csdef{cftafter#2title}{\hfill}%
+	\csdef{cftafter#2title}{\hfill\null}%
 	\csuse{cftbefore#2titleskip}\z@skip
 	\csuse{cftafter#2titleskip}\z@skip
 	\csdef{cft#1font}{\normalfont}%
