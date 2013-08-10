@@ -262,6 +262,15 @@
 	\endgroup
 	\vskip.3333in}{\newpage}
 
+\newenvironment{dissertationintroduction}{%
+	\newpage
+	\csuse{phantomsection}%
+	\addcontentsline{toc}{chapter}{Introduction}%
+	\chapter*{Introduction}%
+}{%
+	\newpage
+}
+
 % Facing caption pages
 \newbox\ucsd@captionbox
 \newenvironment{facingcaption}[1]{%
