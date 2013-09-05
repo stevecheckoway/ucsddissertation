@@ -372,6 +372,34 @@ command!}{Uh oh}}
 % Use more dots
 \renewcommand\cftdotsep{2}
 \cftsetpnumwidth{2em}
+\newcommand\ucsd@setuptocentry[2]{%
+	\csdef{cft#1font}{\normalfont}%
+	\csdef{cft#1presnum}{#2\space}%
+	\csdef{cft#1dotsep}{\cftdotsep}%
+	\csdef{cft#1pagefont}{\normalfont}%
+	\csdef{cft#1leader}{\cftdotfill\cftdotsep}%
+	\ifstrequal{#1}{chap}{%
+		\csdef{cft#1aftersnum}{ }%
+		\def\ucsd@temp{00}%
+	}{%
+		\ifstrequal{#1}{part}{%
+			\csdef{cft#1aftersnum}{ }%
+			\def\ucsd@temp{VIII}%
+		}{%
+			\csdef{cft#1aftersnum}{. }%
+			\def\ucsd@temp{00.00}%
+		}%
+	}%
+	\csdef{cft#1indent}{\z@}%
+	\csdef{cftbefore#1skip}{12\p@}%
+	\settowidth\dimen@{%
+		\csuse{cft#1presnum}%
+		\ucsd@temp
+		\csuse{cft#1aftersnum}%
+	}%
+	\csuse{cft#1numwidth}\dimen@
+}
+
 \newcommand\ucsd@setuplistof[5]{%
 	\csdef{cft#2titlefont}{%
 		\csuse{phantomsection}%
@@ -382,25 +410,6 @@ command!}{Uh oh}}
 	\csdef{cftafter#2title}{\hfill\null}%
 	\csuse{cftbefore#2titleskip}\z@skip
 	\csuse{cftafter#2titleskip}\z@skip
-	\csdef{cft#1font}{\normalfont}%
-	\csdef{cft#1presnum}{#4\space}%
-	\csdef{cft#1dotsep}{\cftdotsep}%
-	\csdef{cft#1pagefont}{\normalfont}%
-	\csdef{cft#1leader}{\cftdotfill\cftdotsep}%
-	\ifstrequal{#1}{chap}{%
-		\csdef{cft#1aftersnum}{ }%
-	}{%
-		\csdef{cft#1aftersnum}{. }%
-	}%
-	\csdef{cft#1indent}{\z@}%
-	\csdef{cftbefore#1skip}{12\p@}%
-	\settowidth\dimen@{%
-		\csuse{cft#1presnum}%
-		00%
-		\ifx#3\contentsname\else.00\fi
-		\csuse{cft#1aftersnum}%
-	}%
-	\csuse{cft#1numwidth}\dimen@
 	% Patch the \@cftmakeXtitle commands to remove the extra space
 	% inserted by \vspace* by converting it to a \vspace which
 	% will ignore the argument because it's the top of a page.
@@ -411,6 +420,7 @@ command!}{Uh oh}}
 			{}{\noexpand\ucsd@patchfailed}%
 	}%
 	\ucsd@temp % perform the patch
+	\ucsd@setuptocentry{#1}{#4}%
 	\AfterPreamble{%
 		\preto#5{\newpage\begingroup\setsinglespacing}%
 		\appto#5{\endgroup\newpage}%
@@ -419,6 +429,26 @@ command!}{Uh oh}}
 \ucsd@setuplistof{chap}{toc}\contentsname\@chapapp\tableofcontents
 \ucsd@setuplistof{fig}{lof}\listfigurename\figurename\listoffigures
 \ucsd@setuplistof{tab}{lot}\listtablename\tablename\listoftables
+
+% Make \part display in a similar fashion to chapter
+\ucsd@setuptocentry{part}\partname
+% Unfortunately, \@part is defined differently from \@chapter and the
+% like. In particular, it doesn't use \numberline which is defined to
+% make an \hbox of the appropriate size. Instead, it uses
+% \thepart\hspace{1em}#1 which gives a really uneven looking result in
+% this format. Let's patch it!
+\patchcmd\@part{\addcontentsline{toc}{part}{\thepart\hspace{1em}#1}}
+	{\addcontentsline{toc}{part}{\protect\numberline{\thepart}#1}}
+	{}{\ucsd@patchfailed}
+% Unfortunately (again), this causes problems with tocloft's
+% definition of \l@part tries to deal with the above problem by
+% inserting a \cftpartpresnum before the title. Coupled with the above
+% definition, this gives us (more or less) Part Part I, obviously not
+% what we want. Let's patch out this behavior so that \l@part looks
+% more like \l@chapter. Since \l@part is defined via \renewcommand*,
+% we don't need to insert the \long prefix.
+\patchcmd\l@part{{\cftpartfont \cftpartpresnum #1}}
+	{{\cftpartfont #1}}{}{\ucsd@patchfailed}
 
 % Handle \appendix in the table of contents
 \appto\appendix{\addtocontents{toc}{\def\string\@chapapp{\string\appendixname}}}
