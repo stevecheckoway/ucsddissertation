@@ -447,8 +447,17 @@ command!}{Uh oh}}
 % what we want. Let's patch out this behavior so that \l@part looks
 % more like \l@chapter. Since \l@part is defined via \renewcommand*,
 % we don't need to insert the \long prefix.
-\patchcmd\l@part{{\cftpartfont \cftpartpresnum #1}}
-	{{\cftpartfont #1}}{}{\ucsd@patchfailed}
+%
+% Starting with version 2.3f [2013/05/02] of tocloft, this is
+% unnecessary. The \patchcmd cannot be tokenized as part of the
+% \@ifpackagelater for some reason. Use \if@ucsdpatchlpart to control
+% the decision to patch.
+\newif\if@ucsdpatchlpart
+\@ifpackagelater{tocloft}{2013/05/02}{\@ucsdpatchlpartfalse}{\@ucsdpatchlparttrue}
+\if@ucsdpatchlpart
+	\patchcmd\l@part{{\cftpartfont \cftpartpresnum #1}}
+		{{\cftpartfont #1}}{}{\ucsd@patchfailed}%
+\fi
 
 % Handle \appendix in the table of contents
 \appto\appendix{\addtocontents{toc}{\def\string\@chapapp{\string\appendixname}}}
