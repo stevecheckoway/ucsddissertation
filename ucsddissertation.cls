@@ -481,7 +481,9 @@ command!}{Uh oh}}
 	\fi
 	\pretocmd\thebibliography{%
 		\setsinglespacing
-		\setlength\bibsep{\baselineskip}%
+		\ifdefined\bibsep
+			\setlength\bibsep{\baselineskip}%
+		\fi
 		\csuse{phantomsection}%
 		\addcontentsline{toc}{chapter}{\bibname}%
 	}{}{\ucsd@patchfailed}%
