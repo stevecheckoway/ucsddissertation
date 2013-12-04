@@ -185,7 +185,7 @@
 \newcommand*\chair[1]{\gdef\@chair{#1, Chair\par}}
 \newcommand*\cochair[1]{\ifx\@cochar\@empty\gdef\@cochair{#1}\else
 	\expandafter\gdef\expandafter\@cochair\expandafter{\@cochair#1,
-	Co-Char\par}\fi}
+	Co-Chair\par}\fi}
 \newcommand*\committee[1]{\ifx\@committee\@empty\gdef\@committee{#1\par}\else
 	\expandafter\gdef\expandafter\@committee\expandafter{\@committee#1\par}\fi}
 % This is identical to \singlespacing except for the vertical space it
