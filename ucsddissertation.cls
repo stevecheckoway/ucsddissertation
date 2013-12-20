@@ -144,6 +144,12 @@
 
 % XXX: The example document has wider margins here, why??
 \newcommand*\makesignature{%
+	\ifx\@chair\@empty
+		\ifx\@cochair\@empty
+			\ClassError{ucsddissertation}{You must specify
+				a \protect\chair}{Use \protect\chair}%
+		\fi
+	\fi
 	\newpage
 	\csuse{phantomsection}%
 	\addcontentsline{toc}{chapter}{Signature Page}
@@ -168,8 +174,10 @@
 			\def\linelabel{Co-Chair}%
 			\expandafter\drawlines\@cochair\enddrawlines
 		\fi
-		\def\linelabel{Chair}%
-		\expandafter\drawlines\@chair\enddrawlines
+		\ifx\@chair\@empty\else
+			\def\linelabel{Chair}%
+			\expandafter\drawlines\@chair\enddrawlines
+		\fi
 		
 		\vskip\baselineskip
 		University of California, San Diego\par
@@ -196,8 +204,7 @@
 \protect\degree}{Use \protect\degree}}
 \def\@shortdegree{\ClassError{ucsddissertation}{You must specify a
 \protect\degree}{Use \protect\degree}}
-\def\@chair{\ClassError{ucsddissertation}{You must specify a
-\protect\chair}{Use \protect\chair}}
+\let\@chair\@empty
 \let\@cochair\@empty
 \let\@committee\@empty
 \def\@degreeyear{\ClassError{ucsddissertation}{You must specify a
