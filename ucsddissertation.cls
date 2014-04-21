@@ -247,7 +247,7 @@
 \newenvironment{dissertationabstract}{%
 	\newpage
 	\csuse{phantomsection}%
-	\addcontentsline{toc}{chapter}{Abstract}%
+	\addcontentsline{toc}{chapter}{Abstract of the Dissertation}%
 	\begingroup
 		\centering
 		\setsinglespacing
