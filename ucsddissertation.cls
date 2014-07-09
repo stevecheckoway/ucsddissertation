@@ -340,7 +340,7 @@
 	\ifvoid\ucsd@outputcaptionbox
 		\ucsd@saved@wtryfc{#1}%
 	\else
-		\if\dim\dimexpr\ht\z@+\dp\z@>\z@
+		\ifdim\dimexpr\ht\z@+\dp\z@>\z@
 			\message{Output box not torn apart!}%
 		\fi
 		\global\setbox\@outputbox\vbox to\textheight{%
