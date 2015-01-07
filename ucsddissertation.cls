@@ -191,9 +191,9 @@
 \newcommand\degree[2]{\gdef\@degree{#1}\gdef\@shortdegree{#2}}
 \newcommand*\degreeyear[1]{\gdef\@degreeyear{#1}}
 \newcommand*\chair[1]{\gdef\@chair{#1, Chair\par}}
-\newcommand*\cochair[1]{\ifx\@cochar\@empty\gdef\@cochair{#1}\else
+\newcommand*\cochair[1]{%
 	\expandafter\gdef\expandafter\@cochair\expandafter{\@cochair#1,
-	Co-Chair\par}\fi}
+	Co-Chair\par}}
 \newcommand*\committee[1]{\ifx\@committee\@empty\gdef\@committee{#1\par}\else
 	\expandafter\gdef\expandafter\@committee\expandafter{\@committee#1\par}\fi}
 % This is identical to \singlespacing except for the vertical space it
