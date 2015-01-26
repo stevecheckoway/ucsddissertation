@@ -491,8 +491,15 @@ command!}{Uh oh}}
 	% list of algorithms
 	\ifdefined\listofalgorithms
 		% Register algorithm with tocloft
-		\ucsd@registerwithtocloft{algorithm}{loa}\listalgorithmname
-		\ucsd@setuplistof{algorithm}{loa}\listalgorithmname\ALG@name\listofalgorithm
+		\ifdefined\ALG@name
+			% Handle algorithm package
+			\ucsd@registerwithtocloft{algorithm}{loa}\listalgorithmname
+			\ucsd@setuplistof{algorithm}{loa}\listalgorithmname\ALG@name\listofalgorithm
+		\else\ifdefined\listalgorithmcfname
+			% Handle algorithm2e package
+			\ucsd@registerwithtocloft{algorithm}{loa}\listalgorithmcfname
+			\ucsd@setuplistof{algorithm}{loa}\listalgorithmcfname\algorithmcfname\listofalgorithm
+		\fi
 		\renewcommand\listofalgorithms{\listofalgorithm}%
 	\fi
 	\pretocmd\thebibliography{%
