@@ -499,7 +499,7 @@ command!}{Uh oh}}
 			% Handle algorithm2e package
 			\ucsd@registerwithtocloft{algorithm}{loa}\listalgorithmcfname
 			\ucsd@setuplistof{algorithm}{loa}\listalgorithmcfname\algorithmcfname\listofalgorithm
-		\fi
+		\fi\fi
 		\renewcommand\listofalgorithms{\listofalgorithm}%
 	\fi
 	\pretocmd\thebibliography{%
