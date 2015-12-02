@@ -503,6 +503,7 @@ command!}{Uh oh}}
 		\renewcommand\listofalgorithms{\listofalgorithm}%
 	\fi
 	\pretocmd\thebibliography{%
+		\clearpage
 		\setsinglespacing
 		\ifdefined\bibsep
 			\setlength\bibsep{\baselineskip}%
