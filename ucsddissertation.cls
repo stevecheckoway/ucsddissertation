@@ -77,7 +77,8 @@
 % Set up page numbers
 \newpagestyle{body}{\sethead{}{}{} \setfoot{}{\thepage}{}}
 \newpagestyle{facingcaption}{%
-	\sethead{\thepage}{}{}%
+	\sethead{}{}{}%
+	\setfoot{}{\thepage}{}%
 	\oddsidemargin\dimexpr\paperwidth-\oddsidemargin-\textwidth-2in\relax
 	\evensidemargin\oddsidemargin
 	\@themargin\oddsidemargin
