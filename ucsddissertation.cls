@@ -578,6 +578,9 @@ command!}{Uh oh}}
 	{\thesubsection}{1em}{}
 \titleformat\subsubsection{\sectioningformatting\normalsize\bfseries}
 	{\thesubsubsection}{1em}{}
+\titleformat\paragraph{\sectioningformatting\normalsize\bfseries}
+	{\theparagraph}{1em}{}
+\titlespacing\paragraph{0pt}{3.25ex plus 1ex minus .2ex}{0pt}
 
 \AfterPreamble{%
 	\ifdefined\urlstyle
