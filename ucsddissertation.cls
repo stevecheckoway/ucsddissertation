@@ -181,7 +181,7 @@
 		\fi
 		
 		\vskip\baselineskip
-		University of California, San Diego\par
+		University of California San Diego\par
 		\@degreeyear
 	}
 	\vfill
@@ -263,7 +263,7 @@
 		\vskip\dissertationabstractskip
 		\@shortdegree\ in \@degree\par
 		\vskip\dissertationabstractskip
-		University of California, San Diego, \@degreeyear\par
+		University of California San Diego, \@degreeyear\par
 		\vskip\dissertationabstractskip
 		\@chair
 		\@cochair
