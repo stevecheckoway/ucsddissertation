@@ -8,8 +8,8 @@
 \RequirePackage{fixltx2e}
 \RequirePackage{calc}
 \RequirePackage[layout=letterpaper,
-	headsep=.5truein-\headheight,
-	footskip=.75truein,
+	headsep=.5truein,
+	footskip=.5truein,
 	nomarginpar]{geometry}
 \RequirePackage{setspace}
 \RequirePackage{indentfirst}
@@ -26,8 +26,8 @@
 \newcommand*\increasemargins[1]{%
 	\geometry{%
 		top=#1+1truein,%
-		bottom=#1+1.25truein,%
-		left=#1+1.5truein,%
+		bottom=#1+1truein,%
+		left=#1+1truein,%
 		right=#1+1truein%
 	}%
 }
@@ -75,7 +75,7 @@
 }
 
 % Set up page numbers
-\newpagestyle{body}{\sethead{}{}{\thepage}}
+\newpagestyle{body}{\sethead{}{}{} \setfoot{}{\thepage}{}}
 \newpagestyle{facingcaption}{%
 	\sethead{\thepage}{}{}%
 	\oddsidemargin\dimexpr\paperwidth-\oddsidemargin-\textwidth-2in\relax
@@ -92,7 +92,7 @@
 	\parskip=\z@
 	\begingroup
 		\centering
-		UNIVERSITY OF CALIFORNIA, SAN DIEGO\par
+		UNIVERSITY OF CALIFORNIA SAN DIEGO\par
 		\vskip\titleskip
 		\@title
 		\vskip\satisfactionskip
