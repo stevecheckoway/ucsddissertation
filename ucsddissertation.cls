@@ -434,7 +434,7 @@ command!}{Uh oh}}
 		\appto#5{\endgroup\newpage}%
 	}%
 }
-\ucsd@setuplistof{chap}{toc}\contentsname\appendixname\tableofcontents
+\ucsd@setuplistof{chap}{toc}\contentsname\@chapapp\tableofcontents
 \ucsd@setuplistof{fig}{lof}\listfigurename\figurename\listoffigures
 \ucsd@setuplistof{tab}{lot}\listtablename\tablename\listoftables
 
