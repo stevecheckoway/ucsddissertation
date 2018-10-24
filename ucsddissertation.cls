@@ -388,7 +388,7 @@ command!}{Uh oh}}
 	\csdef{cft#1leader}{\cftdotfill\cftdotsep}%
 	\ifstrequal{#1}{chap}{%
 		\csdef{cft#1aftersnum}{ }%
-		\def\ucsd@temp{00}%
+		\def\ucsd@temp{M}%
 	}{%
 		\ifstrequal{#1}{part}{%
 			\csdef{cft#1aftersnum}{ }%
@@ -434,7 +434,11 @@ command!}{Uh oh}}
 		\appto#5{\endgroup\newpage}%
 	}%
 }
+% Make sure spacing for Appendix is large enough by temporarily defining
+% \@chapapp as \appendixname
+\def\@chapapp{\appendixname}
 \ucsd@setuplistof{chap}{toc}\contentsname\@chapapp\tableofcontents
+\def\@chapapp{\chaptername}
 \ucsd@setuplistof{fig}{lof}\listfigurename\figurename\listoffigures
 \ucsd@setuplistof{tab}{lot}\listtablename\tablename\listoftables
 
