@@ -159,7 +159,7 @@
 	\noindent
 	\hskip.5in
 	\parbox{\linewidth-1in}{%
-		\noindent The Dissertation of \@author\ is approved and is
+		\noindent The Dissertation of \@author\ is approved, and it is
 		acceptable in quality and form for publication on microfilm
 		and electronically:\par
 		\centering
