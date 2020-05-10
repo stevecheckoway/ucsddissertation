@@ -98,7 +98,7 @@
 		\@title
 		\vskip\satisfactionskip
 		A dissertation submitted in partial satisfaction of
-		the\par requirements for the degree of \@shortdegree
+		the\par requirements for the degree \@shortdegree
 		\par
 		\vskip\inskip
 		in\par
