@@ -153,7 +153,7 @@
 	\fi
 	\newpage
 	\csuse{phantomsection}%
-	\addcontentsline{toc}{chapter}{Signature Page}
+	\addcontentsline{toc}{chapter}{Dissertation Approval Page}
 	\Vspace\z@skip
 	\vfill
 	\noindent
@@ -161,26 +161,9 @@
 	\parbox{\linewidth-1in}{%
 		\noindent The Dissertation of \@author\ is approved, and it is
 		acceptable in quality and form for publication on microfilm
-		and electronically:\par
+		and electronically.\par
+		\vspace{33em}
 		\centering
-		\long\def\drawlines##1\par##2\enddrawlines{%
-			\vskip.5in\hrule depth.8\p@
-			\vskip3\p@\hfill
-			\linelabel\par
-			\ifx\relax##2\relax
-			\else\drawlines##2\enddrawlines\fi}%
-		\def\linelabel{\vphantom{Co-Chair}}%
-		\expandafter\drawlines\@committee\enddrawlines
-		\ifx\@cochair\@empty\else
-			\def\linelabel{Co-Chair}%
-			\expandafter\drawlines\@cochair\enddrawlines
-		\fi
-		\ifx\@chair\@empty\else
-			\def\linelabel{Chair}%
-			\expandafter\drawlines\@chair\enddrawlines
-		\fi
-		
-		\vskip\baselineskip
 		University of California San Diego\par
 		\@degreeyear
 	}
