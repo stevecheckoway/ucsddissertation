@@ -1,0 +1,106 @@
+% \documentclass[12pt, final]{l4dc2023}
+% \usepackage{microtype}
+% \usepackage{booktabs}
+% \usepackage{balance}
+% \usepackage{enumitem}
+% \usepackage{hyperref}
+% \usepackage{url}
+% %\usepackage{subfigure}
+% \usepackage{wrapfig}
+% \usepackage[format=plain]{caption}
+% \usepackage{bbold}
+% \newtheorem*{claim}{Claim} 
+% %\usepackage{amssymb,amsmath}
+% %\usepackage{algorithm2e}
+% \RestyleAlgo{ruled}
+% \usepackage{floatrow}
+% \newcommand{\M}[1]{{\mathbf{#1}}} % matrix
+% \newcommand{\T}[1]{{\mathcal{#1}}} % tensor
+% \newcommand{\V}[1]{{\mathbf{#1}}} % vector
+% \newcommand{\real}{{\mathbb{R}}} % real
+% % %\newtheorem{theorem}{Theorem}[section]
+% % \newtheorem{corollary}{Corollary}[theorem]
+% % \newtheorem{lemma}[theorem]{Lemma}
+% % \newtheorem{definition}[theorem]{Definition}
+% % \newtheorem{proposition}[theorem]{Proposition}
+% \usepackage{hyperref}
+% \usepackage{wrapfig}
+% \captionsetup{format=plain}
+
+
+% \input{math_commands.tex}
+
+% The following packages will be automatically loaded:
+% amsmath, amssymb, natbib, graphicx, url, algorithm2e
+
+% Probabilistic symmetry for improved forecasting  
+
+% \title[Probabilistic Symmetry for Multi-Agent Dynamics]{Probabilistic Symmetry for Multi-Agent Dynamics}
+% \usepackage{times}
+% Use \Name{Author Name} to specify the name.
+% If the surname contains spaces, enclose the surname
+% in braces, e.g. \Name{John {Smith Jones}} similarly
+% if the name has a "von" part, e.g \Name{Jane {de Winter}}.
+% If the first letter in the forenames is a diacritic
+% enclose the diacritic in braces, e.g. \Name{{\'E}louise Smith}
+
+% Two authors with the same address
+% \coltauthor{\Name{Author Name1} \Email{abc@sample.com}\and
+%  \Name{Author Name2} \Email{xyz@sample.com}\\
+%  \addr Address}
+
+% Three or more authors with the same address:
+% \coltauthor{\Name{Author Name1} \Email{an1@sample.com}\\
+%  \Name{Author Name2} \Email{an2@sample.com}\\
+%  \Name{Author Name3} \Email{an3@sample.com}\\
+%  \addr Address}
+
+% Authors with different addresses:
+\author{%
+ \Name{Sophia Sun} \Email{sophiasun@eng.ucsd.com}\\
+ \addr University of California, San Diego
+ \AND
+ \Name{Robin Walters} \Email{r.walters@northeastern.edu}\\
+ \addr Northeastern University
+  \AND
+ \Name{Jinxi Li} \Email{jinxi.li@connect.polyu.hk}\\
+ \addr Hong Kong Polytechnic University
+  \AND
+ \Name{Rose Yu} \Email{roseyu@ucsd.edu}\\
+ \addr University of California, San Diego%
+}
+
+%\maketitle
+
+% \begin{abstract}%
+% Learning multi-agent dynamics is a core AI problem with broad applications in robotics and autonomous driving. While most existing works focus on deterministic prediction, producing probabilistic forecasts to quantify uncertainty is critical for downstream decision-making tasks such as motion planning and collision avoidance. 
+% %Multi-agent dynamics often contains internal symmetry. 
+% By leveraging the internal symmetry in multi-agent dynamics, specifically rotational equivariance, we can improve not only the accuracy, but also calibration of our probabilistic forecasts. We propose a novel deep dynamics model, Probabilistic Equivariant Continuous COnvolution (PECCO) for probabilistic prediction of multi-agent trajectories. PECCO extends equivariant continuous convolution to model the joint velocity distribution of multiple agents. It uses dynamics integration to propagate the uncertainty from velocity to position. We introduce Energy Score, a proper scoring rule, to evaluate probabilistic predictions. On both synthetic and real-world datasets, PECCO shows significant improvements in accuracy and calibration compared to non-equivariant baselines. 
+
+% \noindent Our code is released at \url{https://github.com/Rose-STL-Lab/PECCO}. The appendix of the paper can be accessed at  \url{https://arxiv.org/abs/2205.01927}.
+% \end{abstract}
+
+% \begin{keywords}%
+% Multi-Agent Modeling, Probabilistic forecasting, deep dynamics model, uncertainty quantification, equivariant neural networks
+% \end{keywords}
+
+\section{Introduction}
+\input{equivariance/secs/intro}
+\section{Related Work}
+\input{equivariance/secs/relate}
+\section{Background}
+\input{equivariance/secs/backgrounds}
+%\section{Score Function for Probabilistic Forecast} 
+%\input{secs/problem}
+\section{PECCO}
+\input{equivariance/secs/method}
+\section{Experiments}
+\input{equivariance/secs/exp}
+\input{equivariance/secs/conclusion}
+
+% Acknowledgments---Will not appear in anonymized version
+%\acks{This work was supported in part by U.S. Department Of Energy, Office of Science, Facebook Data Science Research Awards, U. S. Army Research Office under Grant W911NF-20-1-0334, and NSF Grants \#2134274 and \#2146343. }
+
+\pagebreak
+\input{equivariance/secs/appendix}
+

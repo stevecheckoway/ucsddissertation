@@ -1,0 +1,129 @@
+
+Many real world decision making tasks make use of time series forecasts that are multivariate and can predict multiple steps into the future. In these applications, we want a "cone of uncertainty" that covers the entire course of our forecasts. Existing time series conformal prediction methods either only provide coverage guarantee for individual time step forecasts \cite{gibbs2021adaptive, xu2021conformal} or produce confidence regions often too inefficient to be useful, especially in multivariate settings  \cite{Schaar2021conformaltime}. Hence, we propose a multi-step conformal prediction algorithm for time series, CopulaCPTS, that guarantees validity over multi-step forecasts. We improve efficiency of the confidence regions by modeling dependency of the time steps using a copula function.
+
+We denote the time series dataset as $\mathcal{D} = \{ (\mathbf{x}_{1:t}^{(i)}, \mathbf{y}_{t+1:t+k}^{(i)}\}_{i=1}^l$, where $\mathbf{x}_{1:t} \in \R^{t\times d_x} $ is $t$ \edit{time steps} of input which has dimension $d_x$, $\mathbf{y}_{t+1:t+k}  \in  \R^{t\times d_y}$ is $k$ \edit{time steps} of output of dimension $d_y$. In the traditional time series forecasting setting we have $d_x = d_y$, but they do not have to be necessarily equal. Given the dataset $\mathcal{D}$, a new test sample $\mathbf{x}_{1:t}^{(n+1)}$, and a confidence level $1-\alpha$, our algorithm returns $k$ confidence intervals, $[\Gamma^{1-\alpha}_1, \ldots, \Gamma^{1-\alpha}_k]$, one for each \edit{time step}, such that:
+
+\begin{equation}
+    \mathbb{P}[\: \forall h \in \{1,\ldots, k\}, \: \mathbf{y}_{t+h} \in \Gamma^{1-\alpha}_h\: ] \geq 1-\alpha
+\label{eq:tsvalidity}
+\end{equation}
+
+for any underlying predictive model. We define equation \ref{eq:tsvalidity} as the \textit{validity} condition for the multi-step time series setting. We will use superscript $\mathbf{x}^i$ to index data, and subscript $\mathbf{y}_t$ to index the time steps within the multi-horizon $\mathbf{y}$.
+
+There are two characteristics desired in uncertainty quantification methods: \textit{calibration} and \textit{efficiency}. A model is calibrated when the predicted confidence level corresponds to the probability of events falling into the predicted range. It is reflected when equality holds in the validity condition $ \mathbb{P} (\mathbf{y} \in \Gamma^{1-\alpha})= 1-\alpha$. \textit{Efficiency}, on the other hand, refers to the size of the confidence region. There is a trade-off between validity and efficiency, as one can always set $\Gamma^{1-\alpha}$ to be infinitely large to satisfy the validity condition. In practice, we want to achieve that the measure of the confidence region (e.g. its area or length) to be as small as possible, given that the validity condition holds. In the following sections we will introduce CopulaCPTS, a conformal prediction algorithm that is both calibrated and efficient for multivariate time series forecasts. 
+
+\subsection{Inductive Conformal Prediction (ICP) for multivariate forecasts}
+
+We view the multidimensional target of dimension $d$ as a point in $\mathbb{R}^d$ space, we simply have $\mathbf{Y}_t = \mathbb{R}^d$ for each \edit{time step} $t$. In this paper we chose nonconformity score to be the L-2 distance $ A((x,y), \hat{f}): = \|y -\hat{f}(x)\|$, where $\hat{f}$ is the forecast model trained on the proper training set $\mathcal{D}_{\text{train}}$. The confidence region $\Gamma^{1-\alpha}(\mathcal{D},x)$ therefore is a $d$-dimensional ball. We chose this  metric because we are forecasting trajectories in space. Since the conformal prediction algorithm produces valid confidence regions regardless of the choice of nonconformity score, one can choose other metrics such as Mahalanobis \cite{johnstone2021conformal} or L-1 \cite{messoudi2021copula} distance based on domain needs, and our algorithm will still hold. 
+
+\subsection{Copula multi-step conformal regression}
+
+We showed in section 3.1 that given a confidence level $1-\alpha$ and a forecast model $\hat{f}$, the ICP algorithm finds a nonconformity score $s_{1-\alpha}$ such that for a new sample $z$ drawn from the data distribution $z \sim \gP$:
+\[
+	\Prob(A(z, \hat{f}) \leq s_{1-\alpha} ) \geq 1-\alpha
+\]
+
+We can use the algorithm to estimate an empirical cumulative distribution function (CDF) for the random variable $A(z, \hat{f})$.
+
+\begin{equation}
+    \hat{F}(s) := \Prob (A(z, \hat{f})\leq s) = \frac{1}{|D_{cal}|} \sum_{z^i \in D_{cal} } \mathbbm{1}_{A(z^i, \hat{f}) \leq s} 
+    \label{eq:cdf}
+\end{equation}
+	
+% With the inverse of the CDF being the same as the empirical quantile estimation (equation \ref{eq:quantile}).
+% \begin{equation}
+%     \hat{F}^{-1}(p) := \inf\{s: (\frac{1}{|D_{cal}|} \sum_{z^i \in D_{cal} } \mathbbm{1}_{A(z, \hat{f}) \leq s}) \geq p \}
+%     \label{eq:inverse_cdf}
+% \end{equation}
+
+For the multi-step conformal prediction algorithm, we will estimate this empirical CDF for each step of the time series, denoted as 
+\begin{equation}
+      \hat{F}_\edit{h}(s_\edit{h}) := \Prob(A(z_\edit{h}, \hat{f}) \leq s_t) \;  \text{for } h \in 1, \ldots, k
+\end{equation}
+
+% changed for reviewing
+% We want to find a \edit{set of} significance levels $1-\alpha_\edit{h}$, \edit{one} for each prediction time step $ 1,\ldots, k$, such that the entire predicted time-series trajectory is covered by the intervals with confidence $1-\alpha$. We denote these significance levels as $1-\alpha_1, \ldots, 1-\alpha_k$. Following Sklar's theorem, we have:
+%
+% \begin{equation}
+%         F(s_1, \ldots, s_k) = C(F_1(s_1), \ldots, F_k(s_k))
+%     = C(1-\alpha_1, \ldots, 1-\alpha_k)
+%     = 1 - \alpha
+% \end{equation}
+
+\edit{Let $1-\alpha_h$ denote the probability produced by the each time step's CDF function $F_h(s_h), \; h\in 1, \ldots, k$. By Sklar's theorem, we have:}
+\begin{equation}
+        F(s_1, \ldots, s_k) = C(F_1(s_1), \ldots, F_k(s_k))
+    = C(1-\alpha_1, \ldots, 1-\alpha_k)
+\end{equation}
+
+\edit{We want to find the set of confidence levels $1-\alpha_h$, such that the entire predicted time series trajectory is covered by the intervals with confidence $1-\alpha$, i.e. $C(1-\alpha_1, \ldots, 1-\alpha_k) \geq 1-\alpha$.} The purpose of using copula is to model the dependency between the multiple predicted time steps, so we can better capture the confidence region for the joint probability. This allows our algorithm to produce more efficient confidence regions. We estimate the copula $C$ with the calibration set $\mathcal{D}_{cal}$, and then we can search for values $\edit{\alpha_h}$ for each time step to obtain the desired multi-step coverage. 
+
+We adopt the empirical copula \edit{\cite{empiricalcop1}} as our default copula. One may pick other parametric copula functions, such as the Gaussian copula, to introduce inductive bias and improve sample efficiency when calibration data is scarce.  The empirical copula is a non-parametric method of estimating marginals directly from observation, and hence does not introduce any bias. For the joint distribution of a time series with $k$ \edit{time steps}, the copula of a vector of probabilities $\mathbf{u} \in [0,1]^k$ is defined as
+\begin{equation}
+C_{\text{empirical}} (\mathbf{u}) =  \frac{1}{n-m}\sum_{i=m+1}^{n} \mathbbm{1}_{\mathbf{u}^i <\mathbf{u}} = \frac{1}{n-m}\sum_{i=m+1}^{n} \prod_{h=1}^{k}  \mathbbm{1}_{\mathbf{u}^i_h <\mathbf{u}_h}
+\label{eq:empiricalcopula}
+\end{equation}
+
+Where $n-m$ is the size of the calibration set. Here, the $\mathbf{u}_i$s are the cumulative probabilities for each data in the calibration set $\mathcal{D}_{cal}$ with size $n-m$. 
+\[
+     \mathbf{u}^i = (u^i_1, \ldots, u^i_k) = (\hat{F}_1(s^i_1), \ldots, \hat{F}_1(s^i_k)), \; i\in \{m+1, \ldots, n\} 
+\]
+
+
+\edit{We make the assumption that $C_{empirical}$ is an accurate copula function for the prediction horizon.} To fulfill the validity condition of \autoref{eq:tsvalidity}, we only need to find  
+\begin{equation}
+     \mathbf{u^*}=(\hat{F}_1(s^*_1), \ldots, \hat{F}_t(s^*_k)) \; \text{such that } \; C_{\text{empirical}} (\mathbf{u^*}) \geq 1-\alpha
+\label{eq:search}
+\end{equation}
+
+We can find  $s_1^*, \ldots, s_k^*$ through any search algorithm. As exhaustive search is exponential to the prediction horizon $k$, we implement the search with stochastic gradient descent using PyTorch. \edit{We study the effectiveness of this method in Appendix C.6}. The confidence region for each \edit{time step} is constructed as the set of all $y_t \in \textbf{y}_t$ such that the nonconformity score is less than $s_t^*$. Algorithm \ref{alg:cpts} summarizes the CoupulaCPTS procedure. \edit{We prove that CopulaCPTS produces valid confidence regions for multi-step time series forecasting (Proposition \ref{lem:copulavalid}) in Appendix \ref{app:proof}.}
+
+\begin{algorithm}[t!]
+    \SetKwInput{Input}{Input}
+    \SetKwInput{Output}{Output}
+    \Input{Dataset $\gD = {(x_i, y_i)}_{i = 1, \ldots, n}$, test input $\mathbf{x}_{1:t}^{n+1}$, target significant level $1-\alpha$.}
+    \Output{Confidence regions $\Gamma^{1-\alpha}_1, \ldots,\Gamma^{1-\alpha}_k$.}
+    \hrulefill\\
+    \tcp{Training}
+    Randomly split dataset $\gD$ into training and calibration datasets $\gD = \Dtrain \cup \Dcal$, where $|\Dtrain| = m$ and $|\Dcal| = n-m$.\\
+    Train $k$-step forecasting model $\hat{f}$ with   training set $\Dtrain$.\\
+    % calibration
+    \tcp{Calibration}
+    Initialize set of nonconformity scores for each \edit{time step} $\mathcal{S}_h = \emptyset$ for $h=1,\ldots,  k$.\\
+    % get nonconformity scores
+    \For{$(\mathbf{x}_{1:t}^i, \mathbf{y}_{t+1:t+k}^i) \in \mathcal{D}_{cal} $}{
+        $\hat{\mathbf{y}}_{t+1:t+k}^{i} \leftarrow \hat{f}(\mathbf{x}_{1:t}^{i})$ \\
+        \For{ $h=1$ \KwTo $k$}{
+        $\mathcal{S}_h \leftarrow \mathcal{S}_h \bigcup \|\hat{\mathbf{y}}_{t+h}^{i} - \mathbf{y}_{t+h}^{i}\|$
+        }
+    }
+    % to revise
+    Construct CDFs $\hat{F}_1 \ldots \hat{F}_k$ as equation \ref{eq:cdf}. \\
+    Construct copula $C(\hat{F}_1(\cdot), \ldots, \hat{F}_k(\cdot))$ as equation \ref{eq:empiricalcopula}.\\
+    %give alpha a different name
+     Search for $s^*_1, \ldots, s^*_k$  such that $C(\hat{F}_1(s^*_1), \ldots, \hat{F}_k(s^*_k)) \geq 1-\alpha$\\
+    %for new time series
+    \tcp{Prediction}
+    $\hat{\mathbf{y}}^{n+1}_{t+1:t+k} \leftarrow \hat{f}(\mathbf{x}_{1:t}^{n+1})$ \\
+    \For{ $h=1$ \KwTo $k$}{
+     $\Gamma_h \leftarrow \{ \mathbf{y} : \;  \|\mathbf{y} - \hat{\mathbf{y}}^{n+1}_h \| < s^*_h \} $ \\
+    } 
+     \KwRet{$\Gamma^{1-\alpha}_1, \ldots,\Gamma^{1-\alpha}_k$}
+ \caption{Copula Conformal Time Series Prediction}
+ \label{alg:cpts}
+\end{algorithm}
+
+% It is simple to show that CopulaCPTS produces valid confidence regions for multi-step time series forecasting. Observe that the empirical copula $C_{\text{empirical}}$ (eq. \ref{eq:empiricalcopula}) itself can be viewed as a way to rank the multi-dimensional nonconformity score. Therefore, the validity proof of inductive conformal prediction (Equation \ref{eq:validityproof}, \ref{eq:region} \cite{vovk2005algorithmic}) holds. See Appendix \ref{app:proof} for the proof of Proposition \ref{lem:copulavalid}.
+
+\begin{proposition}[Validity of CopulaCPTS]
+The confidence regions provided by CopulaCPTS (algorithm \ref{alg:cpts}) are valid. i.e. $ \edit{\Prob}[\: \forall h \in \{1,\ldots, k\}, \: \mathbf{y}_{t+h} \in \Gamma^{1-\alpha}_h\: ] \geq 1-\alpha$.
+\label{lem:copulavalid}
+\end{proposition}
+
+% \\&= (1-\epsilon)
+% ( Since \hat{F}_1(s^{n+1}_i) \geq \hat{F}_1(s^*_i) \text{ for all } i ) \quad
+
+\subsection{CopulaCPTS in  auto-regressive forecasting }
+Auto-regressive forecasting is a common framework in time series forecasting. So far, we've been looking at forecasts for a predetermined number of \edit{time steps} $k$. One can use a fixed length model to forecast for longer horizons $k'$ autoregressively - by taking model output as part of the input. In the conformal prediction setting, we want to not only to autoregressively use the point value forecasts, but also propagate the uncertainty measurement. 
+
+If we assume the time series to be \textit{stationary}, then the copula remains the same for any sliding window of $k$ steps, i.e. $C(u_1, \ldots, u_k) = C(u_2, \ldots, u_{k+1})$. Given a model $\hat{f}$ to predict $k$ time steps. Hence, after we've found the $u_1^*, \ldots, u_k^*$ such that $C(u_1^*, \ldots, u_k^*) \geq 1-\alpha$, we simply have to search for $u_{k+1}^*$ such that $C(u_2^*, \ldots, u_k^*, u_{k+1}^*) \geq 1-\alpha$. The guarantee proven in Proposition \ref{lem:copulavalid} still holds for the new estimation. On the other hand, if the time series is \textit{non-stationary}, we can fit copulas $C_1(u_1, \ldots, u_k)$, $\ldots$, $C_{k'-k}(u_{k'-k}, \ldots, u_{k'})$, one for each autoregressive prediction, given that we have $k'$ steps of data in our calibration set. This way, we transform the autoregressive problem into $k'-k$ multi-step problems that can be solved by CopulaCPTS. It follows that each of the autoregressive predictions are valid. Appendix \ref{lab:autoregressive} provides an example scenario where re-estimating the copula is necessary and improves validity.

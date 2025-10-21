@@ -1,0 +1,196 @@
+
+\label{sec:setting_3}
+
+% \begin{algorithm}[h!]
+% \caption{OAD with offline datasets}\label{alg:four}
+% \SetKwInOut{Input}{Input}
+% \SetKwInOut{Output}{Output}
+% \Input{Quantile $q$, Confidence $1-\alpha$, offline datasets $\gD_1, \gD_2, \ldots, \gD_L$. }
+% \Output{Anomaly labels $\hat{y}_1, \hat{y}_2, \ldots$}
+% \For{$j = 1, \ldots, k$}{
+%         $CS_{j\text{data}} \gets CS(\gD_j)$\;
+%         }
+% \For{ $\text{each time }t \geq 1$ } {
+%     Receive $t^{th}$ input $S_t$\;
+%     $CS_{\text{online}} \gets CS(\{S_i\}_{i=1}^{t})$\;
+%     \For{$j = 1, \ldots, k$}{
+%         $\text{shift}_j \gets \mathbf{1}(CS_{j\text{data}} \cap CS_{\text{online}} = \emptyset)$\;
+%     }
+%     \tcp{\small{\# of datasets with CS matching online}}
+%     m = $\Sigma_j \mathbf{1}(\text{change}_j = 0)$ \;
+%     \uIf{$m =1 $}{
+%          \tcp{\small{leverage the matched dataset}}
+%         $\hat{y}_t \gets $ Algorithm-\ref{alg:one} $(q, 1-\alpha, \gD_{j\text{match}}  \cup \{S_1,  \ldots , S_t\})$ \;
+%     }
+%     \Else{
+%          \tcp{\small{use online estimation}}
+%         $\hat{y}_t \gets$ Algorithm-\ref{alg:one} $(q, 1-\alpha, \{S_1,  \ldots , S_t\})$\;
+%   }
+% }
+% \end{algorithm}
+
+In this section, we return to $(S_t)_{t\geq 1}$ being i.i.d., but give guarantees when the algorithm has access to offline datasets. Our results are based on an \emph{offline} version of Assumption \ref{asumption_detectable} that we state below.
+
+% \begin{definition}[Well separated offline dataset]
+% A collection of datasets $\gD_1, \ldots, \gD_L$ are well separated given $p, \alpha$ when their respective confidence sequences do not intersect. i.e. $CS(\gD_i) \cap CS(\gD_j) = \emptyset$ for any $i, k \in [1, L], i\neq j$.
+% \label{defn:offline_datasets}
+% \end{definition}
+
+
+
+\begin{assumption}[\textbf{Well separated offline dataset}]
+For $p, \alpha \in (0,1)$, the offline dataset $\gD = \{\{X_l^{(j)}\}_{l=1}^{N_j} \}_{j=1}^K$ is $(p, \alpha)$-separated  with resepct to a piece-wise stationary stream $\Bigl(T,H_T, (\tau_c)_{c=0}^{H_T}, (f^{(c)})_{c=0}^{H_T}\Bigr)$ if both: {\em (i)} for all $i \neq j \in [K]$, $3(u_{N_i}(\alpha) + u_{N_j}(\alpha)) < \text{Shift}(f_{(i)}, f_{(j)}, p)$, and {\em(ii)} for all $j \in [K]$ and stationary-segments $k \in [H_T]$, either $Q^{(k)}(p) = Q_{(j)}(p)$, or  $3u_{N_j}(\alpha) < \text{Shift}(f^{(k)}, f_{(j)},p)$.
+\label{defn:offline_datasets}
+\end{assumption}
+{\color{black} Roughly, a well-separated offline dataset are those that have a sufficient number of samples so as to be distinguishable. Schematic illustrations in Section \ref{sec:illustrations} in the Appendix.} %This assumption is the \emph{offline} version of Assumption \ref{asumption_detectable}. }
+
+% \begin{definition}
+%     For every $k \in [K]$, we denote by $Q_{(k)}(p) \in \mathbb{R}$ as the $p$th quantile of the $k$th dataset $\mathcal{D}_k := \{X_l^{(k)}\}_{l=1}^{N_k}$.
+%     \label{def:offline_quantile}
+% \end{definition}
+
+% \begin{definition}[Good event 3] Define the event $\gE_3$ as 
+% \begin{multline}
+%     \gE_3 := \bigcap_{k=1}^{K}\bigg\{ Q_{(k)}(p) \in C(p,\alpha, \{X_j^{(k)}\}_{j=1}^{N_k}) \bigg\}  \\ \bigcap_{t \geq 1} \bigg\{ Q(p) \in C(p,\alpha, S_{1:t} \}) \bigg\},
+%     \label{eqn:good_event_3}
+% \end{multline}
+% where $Q(p)$ is the $p$th quantile of the i.i.d. sequence $(S_t)_{t \geq 1}$. 
+% \end{definition}
+
+
+
+
+
+% \begin{algorithm}[h!]
+% \caption{Stationary stream with offline datasets}\label{alg:four}
+% \SetKwInOut{Input}{Input}
+% \SetKwInOut{Output}{Output}
+% \Input{Quantile $q$, Confidence $1-\alpha$, offline datasets $\gD_1, \gD_2, \ldots, \gD_K$. }
+% \Output{Anomaly labels $\hat{y}_1, \hat{y}_2, \ldots$}
+% % \For{$j = 1, \ldots, k$}{
+% %         $CS_{j\text{data}} \gets C(p, \alpha, \gD_j)$\;
+% %         }
+% \For{ $\text{each time }t \geq 1$ } {
+%     Receive $t^{th}$ input $S_t$\;
+    
+%     % $CS_{t}^{(\text{online})} \gets C(p, \alpha,S_{1:t})$\;
+    
+%     $J_{\text{match}} \gets  \{ j : C(p, \alpha, \gD_j)\cap C(p, \alpha,S_{1:t}) \neq \emptyset \}$\;
+    
+%     \uIf{$|J_{\text{match}}| =1 $}{
+%     %$j_{\text{match}} \gets \sup \{ j : C(p, \alpha, \gD_j)\cap C(p, \alpha,S_{1:t}) \neq \emptyset \}$\;
+    
+%         $\hat{y}_t \gets $  \small{Algo-\ref{alg:marginal_decision} $(S_t, C(p,\alpha, \gD_{J_{\text{match}}}  \cup \{S_{\tau:t}))$}\; \tcp{\small{use online and offline dataset}}
+%     }
+%     \Else{
+       
+%         $\hat{y}_t \gets$ \small{Algo-\ref{alg:marginal_decision} $(S_t, C(p,\alpha,  \{S_{\tau:t}))$}\;  \tcp{\small{use online data only}} %\small{Algo-\ref{alg:one} $(p, 1-\alpha, \{S_{\tau},  \ldots , S_t\})$}\;
+%   }
+% }
+% \end{algorithm}
+% In words, $\gE_3$ is the intersection of good event $\gE_1$ in equation \ref{eqn:good_event_defn} for the online stream, and all of the $K$ offline dataset streams. A simple union bound over the $K+1$ streams gives that the good-event $\mathbb{P}[\gE_3]\geq 1-(K+1)\alpha$. 
+The main result of this section is how to make decision at time $t$ which is summarized in Algorithm \ref{alg:decision_making_datasets}. In a nutshell, Algorithm \ref{alg:decision_making_datasets} uses the offline dataset if and only if there exists \emph{exactly one} of the $K$ offline dataset whose CS intersects the CS constructed from $S_{1:t}$. The decision at time $t$ is made by constructing a with the unique offline dataset (if it exists) and the online stream using Algorithm \ref{alg:marginal_decision}.
+
+
+\begin{algorithm}
+\caption{Decision making with offline data}\label{alg:decision_making_datasets}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\Input{$p,\alpha \in (0,1)$, Online data $S_{1}, \ldots, S_n$, offline datasets $\gD_{1}, \ldots, \gD_K$. }
+\Output{Anomaly label $\hat{y} \in \{0,1,*\}$}
+% \For{$j = 1, \ldots, k$}{
+%         $CS_{j\text{data}} \gets C(p, \alpha, \gD_j)$\;
+%         }
+    % $CS_{t}^{(\text{online})} \gets C(p, \alpha,S_{1:t})$\;
+    
+    $J_{\text{match}} \gets  \{ j : C(p, \alpha, \gD_j)\cap C(p, \alpha,S_{1:n-1}) \neq \emptyset \}$\;
+    
+    \uIf{$|J_{\text{match}}| =1 $}{
+    %$j_{\text{match}} \gets \sup \{ j : C(p, \alpha, \gD_j)\cap C(p, \alpha,S_{1:t}) \neq \emptyset \}$\;
+    
+        $\hat{y} \gets $  \small{{{\ttfamily Algorithm-}}\ref{alg:marginal_decision}  $(S_n, C(p,\alpha, \gD_{J_{\text{match}}}  \cup \{S_{1:n-1}))$}\; \tcp{\small{use online and offline dataset}}
+    }
+    \Else{
+       
+        $\hat{y} \gets$ \small{{{\ttfamily Algorithm-}}\ref{alg:marginal_decision}  $(S_n, C(p,\alpha,  \{S_{1:n-1}))$}\;  \tcp{\small{use online data only}} %\small{Algo-\ref{alg:one} $(p, 1-\alpha, \{S_{\tau},  \ldots , S_t\})$}\;
+  }
+  \Return $\hat{y}$\;
+\end{algorithm}
+
+We set some more notation to state the result.
+For all $j \in [K]$, $\widehat{\tau}_j = \inf \{ \widehat{\tau}: 3(u_{\widehat{\tau}}(\alpha) + u_{N_j}(\alpha)) \leq \text{Shift}(f,f_{(j)},p) \},$
+where $\widehat{\tau}_j = +\infty$ if $\text{Shift}(f,f_{(j)},p)=0$. Assumption \ref{defn:offline_datasets} guarantees that if $\text{Shift}(f,f_{(j)},p)>0$, then $\widehat{\tau}_j  < \infty$ is finite independent of $T$.
+%Denote by 
+\begin{align}
+    \widehat{\tau} := \max \{ \lceil \widehat{\tau}_j \rceil : \text{Shift}(f,f_{(j)}, p) > 0 \}.
+    \label{eqn:defn_tau_hat}
+\end{align}
+%The main result of this section is the following.
+
+\begin{theorem}[\textbf{Main result for Algorithm \ref{alg:decision_making_datasets}}] Let the online stream $(S_t)_{t \geq 1} $ be i.i.d. from distribution $f$ and the $j \in [K]$ offline dataset with $N_j$ i.i.d. samples have distribution $f_{(j)}$. Further, let the offline dataset be $(p,\alpha)$ well-separated for some $\alpha \in (0,1)$ (Def. \ref{defn:offline_datasets}). Let $\Delta = \min_{1\leq j \leq K} \text{Shift}(f, f_{(j)},p)$. Then,for all times $T \in \mathbb{N}$, with probability at-least $1-(K+T)\alpha$, if the decision $\hat{y}_t$ is made by Algorithm \ref{alg:decision_making_datasets} with inputs $p, \alpha, S_{1:t}$ and $\mathcal{D}_{1:K}$, we have:
+\begin{itemize}[itemsep=2pt,topsep=-1pt,labelwidth=!, labelindent=0pt]
+\item  If $\Delta = 0$, then $\text{FP} + \text{FN} = 0$ and Abstains  $\leq {B}(N+T,\alpha) - \frac{B(N,\alpha)}{28} + \widehat{\tau}$, %where  $N = \min \{N_j: \text{Shift}(f,f_{(j)},p)=0\}$, $B(\cdot, \cdot) : \mathbb{N} \times [0,1] \to \mathbb{R}_{+}$ is given by $B(Y,\alpha) =  7\sqrt{Y \ln \left( \frac{1612\ln(3Y)}{\alpha^2} \right)}$ and $\widehat{\tau}$ is defined in Equation (\ref{eqn:defn_tau_hat}).% and  $\widetilde{\Delta} = \min \{ \text{Shift}(f,f_{(j)}, p) : \text{Shift}(f,f_{(j)}, p) > 0 \}$. 
+\item If  $\Delta > 0$, then $\text{FP}+\text{FN} \leq \widehat{\tau} $ and Abstains  $ \leq \widehat{\tau} + B(T,\alpha)$,
+\end{itemize}
+where  $N = \min \{N_j: \text{Shift}(f,f_{(j)},p)=0\}$, $B(\cdot, \cdot) : \mathbb{N} \times [0,1] \to \mathbb{R}_{+}$ is given by $B(Y,\alpha) =  7\sqrt{Y \ln \left( \frac{1612\ln(3Y)}{\alpha^2} \right)}$ and $\widehat{\tau}$ is defined in Equation (\ref{eqn:defn_tau_hat}).
+% {\em (i)} If $\Delta = 0$, then $\text{FP} + \text{FN} = 0$ and Abstains   $\leq {B}(N+T,\alpha) - B(N,\alpha)$ where  $N = \min \{N_j: \text{Shift}(f,f^{(j)},p)=0\}$.
+
+% {\em(ii)} Else if  $\Delta > 0$, then $\text{FP}+\text{FN} \leq D(\Delta,\alpha) $ and Abstains  $ \leq D(\Delta,\alpha) + B(T,\alpha)$,
+
+% where $B(\cdot, \cdot) : \mathbb{N} \times [0,1] \to \mathbb{R}_{+}$ is given by $B(Y,\alpha) = 4 \sqrt{Y \ln \left( \frac{1612\ln(3Y)}{\alpha^2} \right)}$. 
+
+% \begin{itemize}[itemsep=2pt,topsep=1pt,labelwidth=!, labelindent=0pt]
+%     \item If $\Delta = 0$, let $N:= \min \{N_j: \text{Shift}(f,f^{(j)},p)=0\}$. Then $\text{FP} + \text{FN} = 0$ and Abstains   $\leq 4 \sqrt{(N+T) \ln \left( \frac{1612\ln(3(N+T))}{\alpha^2} \right)}- 4 \sqrt{N \ln \left( \frac{1612\ln(3N)}{\alpha^2} \right)}$.
+%     % \begin{itemize}[noitemsep,labelwidth=!, labelindent=0pt]
+%     %     \item $FP= 0$, $FN=0$
+%     %     \item Abstains $= 4 \sqrt{(N+T) \ln \left( \frac{1612\ln(e(N+T))}{\alpha^2} \right)}- 4 \sqrt{N \ln \left( \frac{1612\ln(eN)}{\alpha^2} \right)}$
+%     % \end{itemize}
+%     \item Else if  $\Delta > 0$, then $\text{FP}+\text{FN} \leq D(\Delta,\alpha) $ and abstains is at-most $ D(\Delta,\alpha) + 4 \sqrt{T \ln \left( \frac{1612\ln(3T)}{\alpha^2} \right)}$.
+%     % \begin{itemize}[noitemsep,labelwidth=!, labelindent=0pt]
+%     %     \item $FP+FN \leq D(\Delta,\alpha) $
+%     %     \item Abstains $\leq D(\Delta,\alpha) + 4 \sqrt{T \ln \left( \frac{1612\ln(eT)}{\alpha^2} \right)}$
+%     % \end{itemize}
+% \end{itemize}
+\label{thm:setting_3}
+\end{theorem}
+
+We now read off several remarks from this result. 
+
+\textbf{Improved performance if offline dataset is useful.} The case of $\Delta=0$ implies that the online stream's $p$th quantile equals at-least one of the $K$ offline dataset's $p$th quantile, i.e., the offline dataset is useful. In this case, Theorem \ref{thm:setting_3} guarantees $0$ FP and FN, and  abstains at-most $\gO(\sqrt{N+T} - \sqrt{N})$, which is much smaller compared to the $\gO(\sqrt{T})$ bound from Algorithm \ref{alg:one} without offline data.
+
+
+\textbf{Bounded degradation if offline dataset is arbitrary.} The case of $\Delta > 0$  implies that the online stream's $p$th quantile does not match any of the $K$ offline dataset's $p$th quantile, i.e., the offline dataset is useless. In this case, Theorem \ref{thm:setting_3}, guarantees FP $+$ FN $\leq \widehat{\tau}$ and abstains $\leq \gO(\sqrt{T}) + \widehat{\tau}$. Thus performance compared to Theorem \ref{the:iid} is worse \emph{only by an additive term independent of the stream length $T$}, thereby achieving desiderata $4$ from Section \ref{sec:desiderata}.
+ Equation (\ref{eq:delay_shorthand}) implies that $\widehat{\tau}$ is a {sample complexity upper bound} to confidently reject the hypothesis that one of the $K$ offline dataset's  $p$th quantile equals that of $f$.%of $(S_t)_{t \geq 1}$ and one of the offline dataset are identical. %determining an offline dataset to be irrelevant since from the Def. in Equation (\ref{eq:delay_shorthand}), $D(\Delta, \alpha)$ is an upper bound on the number of samples of the online stream needed 
+
+%This term $D(\Delta, \alpha)$ is larger when the \emph{complexity} of distinguishing the online stream from the offline dataset is harder and is the \emph{penalty} incurred  when the offline datasets are not reflective of the online distribution. 
+  Thus, Algorithm \ref{alg:decision_making_datasets} adapts to the complexity yielding much lower abstains in the case when the online distribution matches one of the offline dataset, while simultaneously having bounded degradation \emph{in the worst-case}. 
+
+%\subsection{Proof Sketch of Theorem \ref{thm:setting_3}}
+
+% To set the ideas, we will need some definitions. 
+
+% \begin{definition}
+%     For every $k \in [K]$, we denote by $Q_{(k)}(p) \in \mathbb{R}$ as the $p$th quantile of the $k$th dataset $\mathcal{D}_k := \{X_l^{(k)}\}_{l=1}^{N_k}$.
+%     \label{def:offline_quantile}
+% \end{definition}
+
+% \begin{definition}[Good event 3] Define the event $\gE_3$ as 
+% \begin{multline}
+%     \gE_3 := \bigcap_{k=1}^{K}\bigg\{ Q_{(k)}(p) \in C(p,\alpha, \{X_j^{(k)}\}_{j=1}^{N_k}) \bigg\}  \\ \bigcap_{t \geq 1} \bigg\{ Q(p) \in C(p,\alpha, S_{1:t} \}) \bigg\},
+%     \label{eqn:good_event_3}
+% \end{multline}
+% where $Q(p)$ is the $p$th quantile of the i.i.d. sequence $(S_t)_{t \geq 1}$. 
+% \end{definition}
+
+%We outline a good-event in Equation (\ref{eqn:good_event_3}) in which all the different quantiles on the online and offline datasets are estimated correctly. 
+\textbf{Proof Sketch.} The crux of the proof is that, if the online stream's quantile matches that of one of the offline dataset, then {\em(i)} for all times, $J_{\text{match}} \geq 1$ in Algorithm \ref{alg:decision_making_datasets}, and {\em(ii)} \emph{ for all times} $t \geq \widehat{\tau}$, $J_{\text{match}} = 1$. Similarly, if no offline dataset's $p$th quantile matches that of the online $p$th quantile, for all times $t \geq \widehat{\tau}$, $J_{\text{match}} = 0$ and thus Algorithm \ref{alg:decision_making_datasets} will only use the online stream's samples for decision making. 
+
+% In words, $\gE_3$ is the intersection of good event $\gE_1$ in equation \ref{eqn:good_event_defn} for the online stream, and all of the $K$ offline dataset streams. A simple union bound over the $K+1$ streams gives that the good-event $\mathbb{P}[\gE_3]\geq 1-(K+1)\alpha$.     The core technical argument in the proof of Theorem \ref{thm:setting_3} is the definition of the good event $\gE_3$ in Equation (\ref{eqn:good_event_3}). 
+
+% First observe that since the offline datasets are disjoint (Definition \ref{defn:offline_datasets}), there can be at-most one offline dataset whose $p$th quantile will match that of the online stream. Under the good event $\gE_3$, \emph{eventually} the online CS will only intersect with this offline CS and thus eventually lead to low number of abstains. However, if the online stream's $p$th quantile does not match any of the offline datasets, then again \emph{eventually} the online CS will not intersect with any offline CS. Thus, in this case, eventually, 
+
+
+%On the other hand if the online distribution does not match any of the offline distribution,  than the performance is comparable to the setting in which no offline data is present (Theorem \ref{the:iid}).
+
+%\abishek{Add flex of how this result is proved.}
+

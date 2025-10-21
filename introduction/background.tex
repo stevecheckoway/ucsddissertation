@@ -1,0 +1,56 @@
+\section{Backgrounds}
+\label{sec:intro_background}
+
+
+Modern neural networks are very powerful predictive models, but they are often incapable of recognizing when their predictions may be wrong.
+
+
+Uncertainty Quantification (UQ) is a key building block of reliable machine learning systems.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\hline
+\textbf{Notation} & \textbf{Meaning} \\
+\hline
+$P, p$ & probability measure, density or mass function \\
+$\mathcal{X}, x, x_i$ & instance space, instance \\
+$\mathcal{Y}, y, y_i$ & output space, outcome \\
+$\gF, f, f_\theta$ & function space, prediction model, model parametrized by $\theta$ \\
+%$\pi(y)$ & possibility/plausibility of outcome $y$ \\
+$f(x)$ & outcome $y \in \mathcal{Y}$ for instance $x$ predicted by model $f$ \\
+$p_{\theta}(y \mid x) = p(y \mid x, \theta)$ & probability of  $y$ given $x$, prediction model parametrized by  $\theta$ \\
+$\ell$ & loss function \\
+%$h^*, \hat{h}$ & risk-minimizing hypothesis, empirical risk minimizer \\
+$\mathbb{E}(X)$ & expected value of random variable $X$ \\
+$\text{Var}(X)$ & variance of random variable $X$ \\
+$\mathbbm{1} \{\cdot\}$ & indicator function \\
+$\gD, \Dtrain, \Dcal$ & dataset, training dataset, calibration dataset \\ 
+\hline
+\end{tabular}
+%\vspace{1em}
+\caption{Notations used through this paper.}
+\end{table}
+
+\subsection{Aleatoric and Epistemic Uncertainty}
+
+A useful framework for analyzing uncertainty in machine learning prediction models is the distinction of \textit{aleatoric} and \textit{epistemic} uncertainty.
+
+\textit{Aleatoric uncertainty} (from Latin ``alea" meaning dice) represents irreducible environmental stochasticity—inherent randomness in states and actions that cannot be reduced through additional data collection.
+
+\textit{Epistemic uncertainty} (from Greek ``episteme" meaning knowledge) captures model uncertainty due to limited information during learning, which can be reduced with more data and better model understanding.
+
+The standard decomposition of predictive uncertainty into aleatoric and epistemic parts is usually expressed via the law of total variance as in \Eqref{eq:aleatoric_epistemic_decomp} \cite{mackay2003information}, where $x\in \gX$ is the input, $y\in \gY$ is the output, $\gD$ is the dataset and $\theta$ is the learned model parameters.
+
+\begin{equation}
+\text{Var}[y|x, \gD] = \underbrace{\mathbb{E}_{p(\theta|D)}[\text{Var}[y|x,\theta]]}_{\text{Aleatoric}} + \underbrace{\text{Var}_{p(\theta|\gD)}[\mathbb{E}[y|x,\theta]]}_{\text{Epistemic}}
+\label{eq:aleatoric_epistemic_decomp}
+\end{equation}
+
+
+
+In practice, disentangling the two types of uncertainty is nontrivial. \cite{Gal2017uncertainty}  models aleatoric uncertainty through learned variance $\delta^2(x)$ as network output, while epistemic uncertainty emerges through Monte Carlo Dropout variance across multiple forward passes.
+\cite{devries2018learning} measures the total uncertainty and the aleatoric uncertainty and consider the epistemic uncertainty as the difference between the two.
+
+\subsection{Conformal Prediction}
+ Conformal prediction (CP) is a popular distribution-free UQ method that provides finite sample coverage guarantees without placing assumptions on the underlying data generating process \cite{vovk2005algorithmic}.

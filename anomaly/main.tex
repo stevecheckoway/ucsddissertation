@@ -1,0 +1,63 @@
+
+% \begin{abstract}
+% Selecting appropriate thresholds for anomaly detection in online, unsupervised settings is a challenging task, especially in the presence of data distribution shifts. Addressing these challenges is critical in many practical large scale systems, such as infrastructure monitoring and network intrusion detection.
+% %
+% This paper proposes an algorithm that connects online thresholding with constructing confidence sequences achieving (1) adaptive online threshold selection robust to distribution shifts, (2) statistical guarantees on false positive and false negative rates without any distributional assumptions, and (3) improved performance when given relevant offline data to warm-start the online algorithm, while having bounded degradation if the offline data is irrelevant. We complement our theoretical results with empirical evidence that our method outperforms commonly used baselines across synthetic and real world datasets.
+% \end{abstract}
+
+% Choosing a threshold on anomaly scores to classify if a given data point is an anomaly is an important problem. This challenge is exacerbated in the online setting when the anomaly detector is unsupervised and the data-stream undergoes distribution shift. Both of these are common in many practical large scale systems, including those for detecting performance anomalies in computer systems, infrastructure monitoring and network intrusion detection.
+% In this paper, we connect the online thresholding problem to that of constructing online confidence sequences. By on this connection, we present an algorithm that can select anomaly thresholds automatically, with guarantees on false positive and false negative rates without making any distributional assumptions. Furthermore, we prove that our algorithm is adaptive to distribution shifts, and can leverage offline data to further improve its performance.
+% Ours is the first algorithm for online anomaly thresholding with rigorous statistical guarantees. We complement our theoretical results by showing empirically that our method outperforms commonly used heuristics across a variety of academic and real world datasets.
+
+
+\section{Introduction and Motivation} 
+\input{anomaly/sec/intro}
+
+\section{Notations and Problem Formulation}
+\input{anomaly/sec/problem}
+
+\input{anomaly/sec/lower_bound}
+
+\section{Special Case I: Stationary stream only} %without offline data}% Stationary stream}
+\input{anomaly/sec/setting1warmup}
+
+
+\section{Special Case II: Piece-wise stationary stream without offline data}
+\label{sec:offline-only}
+\input{anomaly/sec/setting2nonstationary}
+
+
+\section{Special Case III: Stationary stream with offline data}
+\input{anomaly/sec/setting3dataset}
+
+\section{The General Case} %: Piece-wise stationary stream with offline data
+\input{anomaly/sec/setting4general}
+
+
+\section{Experiments}
+\input{anomaly/sec/experiments}
+
+\input{anomaly/sec/related_work}
+
+\section{Discussion}
+
+Our paper is the first to systematically theoretically and empirically show that thresholding algorithm can improve the overall performance of any anomaly scoring model for online anomaly detection. Through a simple argument (Theorem \ref{thm:main_lower_bound}), we demonstrate that abstaining is necessary for high accuracy. 
+
+Our work introduces a new approach to online adaptive anomaly thresholding, leveraging CS to utilize offline data and dynamically adjust thresholds in real-time data streams. We give the first statistical guarantees on abstains and mistakes in various settings with non-stationary data streams and offline datasets (Theorem 2 - 6), motivated by practical AD applications. Our results are corroborated with synthetic and real experiments. %Future work can involve giving guarantees on threshold selection when the anomaly scores evolve through auto-regressive or temporal dependence. Another direction of future work is to relax Assumptions \ref{asumption_detectable} and \ref{defn:offline_datasets}.
+%A limitation is that our results rely on assumptions of (1) samples are temporally independent and (2) change points are far apart and changes are detectable. Future work can involve giving guarantees on threshold selection when the anomaly scores evolve through auto-regressive or temporal dependence. 
+
+A limitation of our work is that the theoretical results rely on (1) samples are temporally independent and (2) change points are far apart and changes are detectable. These assumptions, although standard in theoretical literature, need not necessarily hold in all applications.
+Our algorithms also do not apply to cases when scores are temporal dependent, or if there are gradual drifts in the score distribution. Designing algorithms that provably work for these cases likely requires new techniques and is thus left for future work.
+
+%Our insight is to use confidence sequences (CS) as both adaptive cold-start, as well as to test for distribution changes. Further, CS also enabled us to prove improved performance in the presence of offline datasets. 
+
+%We address some possible questions and criticisms to our work. Our work abstracts away the modeling portion of anomaly detection, and instead focus on the decision making part. In this paper, we propose a new approach to thresholding; hence we consider challenges such as time-window, types of anomaly as beyond our scope. For estimating the quantiles, this work extensively uses \cite{howard2022sequential}'s confidence sequence method; their analysis focuses on estimation.  Our contribution lies in the algorithms and analyses of decision making regret given these estimations. Our algorithm is invariant to scale, offset, and occlusion. We are able to prove that algorithms fulfill the desiderata of AD outlined in section 1.2, and shown their effectiveness on large synthetic and real world datasets.
+
+%Our setting, though uncommon in the anomaly detection literature, is motivated by practical use cases. In large cloud database/software systems, we often have a ``quota''  of anomaly alarms that we are allowed to send. How to decide which event to alarm while minimizing harmful events such as false positives and negatives becomes the research topic. As we have shown, our setting is neither simplistic or trivial \cite{wu2021current}, and our method achieve performance consistent with our theory on real datasets.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\clearpage
+
+\input{anomaly/sec/supplement}

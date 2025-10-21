@@ -1,0 +1,111 @@
+
+% \documentclass{article} % For LaTeX2e
+
+% \usepackage{hyperref}
+% \usepackage{url}
+% \usepackage{microtype}
+% \usepackage{graphicx} %[dvipdfmx]
+% \usepackage{caption}
+% \usepackage{subcaption}
+% \usepackage{booktabs} 
+% \usepackage{bbm}% for professional tables
+% \usepackage{hyperref}
+% \usepackage{tikz}
+% \usepackage{wrapfig}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage{mathtools}
+% \usepackage{wrapfig}
+% \usepackage{amsthm}
+% \usepackage{float}
+
+% \newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+% \usepackage[ruled, lined, linesnumbered, commentsnumbered, longend]{algorithm2e}
+
+% \usepackage{xcolor}
+% \definecolor{mygray}{gray}{0.4}
+
+% \input{math_commands.tex}
+% \newcommand{\fix}{\marginpar{FIX}}
+% \newcommand{\new}{\marginpar{NEW}}
+% \newcommand{\ryedit}[1]{{\color{magenta} #1}}
+% \newcommand{\ryu}[1]{\ryedit{[RY: #1]}}
+
+
+% \usepackage[final]{neurips_2025}
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2024}
+
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2024}
+
+
+% If accepted, instead use the following line for the camera-ready submission:
+%\usepackage[accepted]{icml2024}
+
+
+% \title{Conformal Prediction for Time-series Forecasting with Change Points}
+
+% \author{%
+% Sophia Sun, Rose Yu \\
+%  Computer Science and Engineering\\
+%  University of California, San Diego\\
+%  % \texttt{hippo@cs.cranberry-lemon.edu}
+% %  \And
+% %   Rose Yu \\
+% % Computer Science and Engineering\\
+% %  University of California, San Diego\\
+%   }
+
+% \begin{document}
+
+
+% \maketitle
+
+% \begin{abstract} Conformal prediction has been explored as a general and efficient way to provide uncertainty quantification for time series. However, current methods struggle to handle time series data with change points — sudden shifts in the underlying data-generating process. In this paper, we propose a novel Conformal Prediction for Time-series with Change points (CPTC) algorithm, addressing this gap by integrating a model to predict the underlying state with online conformal prediction to model uncertainties in non-stationary time series. We prove CPTC's validity and improved adaptivity in the time series setting under minimum assumptions, and demonstrate CPTC's practical effectiveness on 6 synthetic and real-world datasets, showing improved validity and adaptivity compared to state-of-the-art baselines.
+% \end{abstract}
+
+\section{Introduction}
+\input{changepoints/secs/intro}
+
+\section{Related Work}
+\input{changepoints/secs/related}
+
+\section{Background}
+\input{changepoints/secs/background}
+
+\section{Conformal Prediction for Time series with Change points (CPTC)}
+\input{changepoints/secs/methods}
+
+\section{Experiments}
+\input{changepoints/secs/exp}
+
+\section{Conclusion and Discussion}
+
+In this paper, we introduced Conformal Prediction for Time-series with Change points (CPTC), a novel conformal prediction algorithm for uncertainty quantification in non-stationary time series. By leveraging state information in switching dynamics systems models, CPTC offers improvements in adaptivity over existing conformal prediction methods. Our theoretical guarantees ensure validity \textit{without assumptions} on time-series stationarity or accurate
+state predictions. Empirical results corroborate our theory and demonstrate the effectiveness of CPTC across diverse synthetic and real-world datasets, achieving robust coverage under distributional shifts with comparable sharpness compared to state-of-the-art baselines. The adaptivity advantage is most pronounced in shorter time series, when baselines require more data to react or learn temporal correlations. %CPTC as a versatile tool for time-series UQ in dynamic and complex environments. 
+% achieving robust coverage under distributional shifts with comparable sharpness. The adaptivity advantage is  especially on medium-length time series.  while empirical results demonstrate the effectiveness of CPTC across diverse synthetic and real-world datasets. 
+
+Limitations of CPTC include (1) slower convergence rate in scenarios with frequent or unpredictable state transitions, as the algorithm requires sufficient observations within each state to achieve optimal calibration and sharpness, (2) wider prediction interval width when applied to very long time series compared methods specialized for such scenarios (e.g. HopCPT), and (3) requirement of a state prediction model, making our method primarily applicable to SDS models and discrete SSMs. Future work could explore extending the framework to continuous states and the theoretical implications thereof, and studying the decision theoretic properties of using conformal prediction for safety-critical applications requiring real-time adaptation.
+
+%\section*{Acknowledgement}
+
+% \clearpage
+
+% \section*{Acknowledgments and Disclosure of Funding}
+
+% This work was supported in part by the U.S. Army Research Office under Army-ECASE award W911NF-07-R-0003-03, the U.S. Department Of Energy, Office of Science, IARPA HAYSTAC Program, NSF Grants SCALE MoDL-2134209, CCF-2112665 (TILOS), \#2205093, \#2146343, and \#2134274, as well as CDC-RFA-FT-23-0069 from the CDC's Center for Forecasting and Outbreak Analytics. 
+
+% \bibliography{ref.bib}
+% \bibliographystyle{abbrv}
+
+% \appendix
+\section{Appendix}
+\input{changepoints/secs/app}
+
+% \input{secs/checklist}
+% \end{document}

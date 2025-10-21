@@ -1,0 +1,139 @@
+In order to build up the intuition and concepts, we consider three special cases in increasing order of complexity {\em (i)} stationary stream without offline data {\em (ii)} piece-wise stationary stream {without offline dataset}, and {\em (iii)} stationary stream with offline dataset. The  ideas from these special cases are developed in Section \ref{sec:general_setting} to give the general algorithm. 
+%\subsection{Stationary stream with no offline data}
+
+
+In this section, we consider the special case when the online algorithm knows that data-stream $(S_t)_{t\geq 1}$ is an i.i.d. sequence and there is no offline dataset for warm-starting, i.e., $\mathcal{D} = \emptyset$. For this special case, we show in Theorem \ref{the:iid} that results from \cite{howard2022sequential} yields an algorithm that guarantees $0$ mistakes and $\mathcal{O}(\sqrt{T})$ abstains.
+%with high probability. 
+%This special case is further sub-divided into two settings - {\em (i)} the case when there is no offline dataset, i.e., $\mathcal{D} = \emptyset$, and {\em (ii)} the case when there is offline dataset to wram-start the online algorithm.
+%For this simple setting, our goal is straightforward - we want to make close to 0 mistakes without incurring too many abstains. To achieve such goal, we introduce the anytime-valid confidence sequences (CS) algorithm introduced in \cite{howard2022sequential}.  
+
+To formally state the results, we set notations. For any sequence of numbers $(y_t)_{t \geq 1}$ and $t_1 < t_2$, denote by $y_{t_1:t_2}:= (y_{t_1}, \cdots,y_{t_2})$. For a positive integer $t$, sequence $y_{1:t}$, and $p \in (0,1)$, the $p$th empirical quantile of $y_{1:t}$ is given by $\widehat{Q}(p; y_{1:t}) := \frac{y^{(\lfloor pt \rfloor)} + y^{(\lceil pt \rceil)}}{2}$, where $y^{(1)} \leq \cdots \leq y^{(t)}$ is the sorted order of $y_{1:t}$. 
+
+\begin{definition}[Confidence Sequences (CS) of a quantile] For $\alpha \in (0,1)$, a level $1-\alpha$ CS of the $p \in (0,1)$ quantile of an i.i.d. sequence $(S_t)_{t\geq 1}$ with true $p$th quantile $Q(p) \in \mathbb{R}$, is a collection of subsets $\{ C_t: t\geq 1\}$ such that for all $t\geq 1$, {\em(i)} $C_t \subseteq \mathbb{R}$,  {\em (ii)}  $C_t$ is $\sigma(S_1, \ldots, S_t)$-measurable w.r.t. the first $t$ samples  and {\em (iii)} $\prob( Q(p) \in \bigcap_{t \geq 1} C_t) \geq 1-\alpha$.
+\label{defn:CS}
+\end{definition}
+
+%\subsection{Stationary stream and no offline data}
+
+% \subsection{Closed form for a quantile CS}
+
+%We use the results in \cite{howard2022sequential} and use an explicit closed form for a CS. 
+%In order to give a closed form expression for a CS, 
+
+
+
+\begin{theorem}[Theorem 2 from \cite{howard2022sequential}]
+    Let $(S_t)_{t \geq 1}$ be an i.i.d. sequence of $\mathbb{R}$ valued random variables. Given $\alpha \in (0,1)$, for all $p \in (0,1)$, the sequence of sets $(C(p,\alpha,S_{1:t}))_{t \geq 1}$ is a $1-\alpha$ level CS for the $p$th quantile, where for any sequence of numbers $(y_{1:n}) $, %$C(p,\alpha,y_{1:n}) \subseteq \mathbb{R}$ is defined as
+        \begin{multline}
+        C(p, \alpha, y_{1:n}) = \bigg[ \widehat{Q}(\max(p-2u_{n}(\alpha),0), y_{1:n}), \widehat{Q}(\min(p+2u_{n}(\alpha),1), y_{1:n}) \bigg],
+        \label{eq:cs}
+   \end{multline}
+    % \begin{multline}
+    %     C(p, \alpha, S_{1:t}) = \bigg[ \widehat{Q}(p-u_t(\alpha); S_{1:t}),  \\  \widehat{Q}(p+u_t(\alpha); S_{1:t}) \bigg],
+    %         \label{eq:cs}
+    % \end{multline}
+    where $u_{(\cdot)}(\cdot): \mathbb{N} \times [0,1] \to [0,1]$ given by the function 
+    \begin{align}
+       u_t(\alpha) = 0.85 \sqrt{t^{-1}[\log\log(et) + 0.8 \log(1612/\alpha)]},
+       \label{eqn:defn_confidence_width_ut}
+    \end{align}
+    and for all $\alpha \in [0,1]$, $u_0(\alpha) = 1$.
+\end{theorem}
+
+% For brevity, we will use the notation $CS({S_1, \ldots, S_T}) = \{ C_t: t\geq 1\}$ to describe the procedure of obtain a confidence sequence from a data stream ${S_1, \ldots, S_t}$. For a given confidence level $p$, we calculate $C_t$ as:
+% \begin{equation}
+%     C_t = [ \hat{Q}_t(p - u_t), \hat{Q}_t(p+u_t)] \quad \text{where} 
+%     \label{eq:cs}
+% \end{equation} 
+% \begin{equation}
+% u_t = 0.85 \sqrt{t^{-1} [\log\log(et) + 0.8 \log(1612/\alpha)]}
+% \label{eqn:defn_confidence_width_ut}
+% \end{equation}
+% where $\hat{Q}$ is the empirical quantile function. 
+
+
+
+A thresholding algorithm for this special case is obtained from the definition of CS as shown in Algorithm \ref{alg:marginal_decision}. 
+%The complete pseudo-code is in Algo. \ref{alg:one} in the Appendix with the following performance guarantee. 
+
+
+% \begin{algorithm}
+% \caption{OAD for stationary i.i.d. stream}\label{alg:one}
+% \SetKwInOut{Input}{Input}
+% \SetKwInOut{Output}{Output}
+% \Input{Quantile $p$, Confidence $1-\alpha$}
+% \Output{Anomaly labels $\hat{y}_1, \hat{y}_2, \ldots$}
+% \For{  $\text{each time }t \geq 1$ } {
+%     Receive $t^{th}$ input $S_t$\;
+%     Compute $lb_t$ and $ub_t$ (Eq. \ref{eq:cs})\;
+%     %Compute $ub_t \gets \hat{Q}_t(p + u_t)$(Eq. \ref{eq:cs})\; 
+%     \uIf{$S_t > ub_t$}{
+%     $\hat{y}_t \gets1$\;
+%   }
+%   \uElseIf{$lb_t \leq S_t \leq ub_t $}{
+%   $\hat{y}_t \gets * $ \;
+%   }
+%   \Else{
+%     $\hat{y}_t \gets 0 $ \;
+%   }
+% }
+% \end{algorithm}
+
+% \subsection{Mistake and abstain bound for stationary streams}
+% The desiderata of our problem consists of three parts, false positives/negatives and abstains. We will analyze them in order respectively. We first define our good event as follows:
+% %
+% \begin{definition}[Good event $\gE_1$] %Denote the good event $\mathcal{E}_1$ as 
+% \begin{align}
+% \begin{split}
+%     \mathcal{E}_1 := \bigcap_{t \in \mathbb{N}} \bigcap_{p \in (0,1)} 
+%    \bigl(  &  \{ Q(p) \leq \widehat{Q}_t(p+u_t) \} \\
+%     & \bigcap \{ Q(p) \geq \widehat{Q}_t(p-u_t) \} \bigr).
+% \end{split}
+% \label{eqn:good_event_defn}
+% \end{align}   
+% \end{definition}
+% %
+% In words, the good event states that for all time $t$, the confidence sequence contains the true $p$th quantile.
+% From Corollary $2$ of \cite{howard2022sequential}, we know that $\mathbb{P}[\mathcal{E}] \geq 1-\alpha$. We remark that \cite{howard2022sequential} show that even when $(S_t)_{t \geq 1}$ are independent, but not necessarily identical, $\mathbb{P}[\mathcal{E}] \geq 1-\alpha$ holds as long as the $p$th quantile $Q_t(p) := Q(p)$ for all $t \geq 1$. This extension relaxing the identical distribution will be crucial in the subsequent sections in the sequel. 
+
+
+\begin{algorithm}
+\caption{Decision making with confidence set}\label{alg:marginal_decision}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\Input{Sample $S \in \mathbb{R}$, Confidence set $C \subseteq \mathbb{R}$ }
+\Output{Anomaly label $\hat{y} \in \{0,1,*\}$}
+
+    \uIf{$S > \max C$}{
+    $\hat{y} \gets1$ \tcp{Declare an anomaly}
+  }
+  \uElseIf{$S \in C$}{
+  $\hat{y} \gets * $  \tcp{Abstain from decision}
+  }
+  \Else{
+    $\hat{y} \gets 0 $  \tcp{Declare benign}
+  }
+  \Return $\hat{y}$
+  
+
+\end{algorithm}
+
+\begin{theorem}
+Suppose for an i.i.d., data-stream $(S_t)_{t\geq 1}$, the decision at time $t$ is given by the output of Algorithm \ref{alg:marginal_decision} with inputs $S_t$ and confidence $C(p,\alpha, S_{1:t-1})$. Then, with probability at-least $1-2\alpha$, $0$ mistakes and at-most $7 \sqrt{T \ln \left( \frac{1612\ln(eT)}{\alpha^2} \right)}$ abstains are incurred. 
+% \begin{enumerate}[noitemsep,topsep=-2pt,labelwidth=!, labelindent=0pt]
+%     \item $0$ False positives, $0$ False negatives
+%     \item Less than or equal to 
+% \end{enumerate}
+\label{the:iid}
+\end{theorem}
+
+\begin{remark}
+   Theorem \ref{the:iid}  implies that points $1$ and $2$ from Section \ref{sec:desiderata} are satisfied by Algorithm \ref{alg:one}.
+    \end{remark}
+
+
+
+\begin{remark}
+   To bound the number of abstains, we need a different analysis compared to \cite{howard2022sequential} to control the probability that a sample $S_{t}$ lies within $C(p,\alpha, S_{1:t-1})$. We do this by constructing a martingale from the sequence of binary random variables $\mathbf{1}_{S_t \in C(p,\alpha, S_{1:t-1})}$ and applying Azuma's inequality. %To do so, we needed the extra factor of $2$ in front of the $u_n(\alpha)$ function in Equation (\ref{eq:cs}). In fact, \cite{howard2022sequential} showed that Equation (\ref{eq:cs}) without the factor of $2$ is also a $1-\alpha$ CS for the quantile. We needed the extra factor to prove high probability lower bound. See also discussion following Equation (\ref{eqn:good_event_defn}) in the appendix. 
+\end{remark}
+

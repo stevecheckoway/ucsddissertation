@@ -1,0 +1,29 @@
+\paragraph{Trajectory Prediction.} 
+% to potential-based methods such as Inverse Reinforcement Learning \cite{irl} and Recurrent Neural Networks (RNN) powered ones \cite{rnn1, sociallstm}.
+%
+Multi-agent trajectory forecasting has been extensively studied, 
+approaches ranged from Kalman filters \cite{kalman1960} to non-linear Gaussian Process Regression models \cite{gaussianprocess}. However, these methods either rely on strong assumptions of the dynamics, or do not explicitly model multi-agent interactions. We refer readers to \cite{trajpredsurvey} for a comprehensive survey of such methods. 
+%
+Advancements in deep learning have allowed  flexible modeling of trajectory dynamics \cite{sociallstm, ctsconv, convsocialpooling, sophie, laneGCN, ecco, vectornet, simplex}, but they focus mainly on point estimation without uncertainty. 
+
+
+% Various approaches explored leveraging the structure of physical data to encode neighboring vehicle interaction - from  grid representations \cite{convsocialpooling}, graph neural networks \cite{lanegraph, vectornet}, to simplicial complexes \cite{simplex}. 
+
+% The former represent the distribution in the form of a 2-dimensional Gaussian Mixture Model (GMM) where the latter \ry{add details}. 
+
+Recent methods have shifted to predicting distributions of  future trajectories, capturing uncertainty in dynamics. There are two main categories for probabilistic forecasting: (1) \textit{explicitly} via exact likelihood \cite{mfp, multipath,densetnt} and variational inference \cite{CVAE, trajectron++, desire}, or (2) \textit{implicitly} with Generative Adversarial Networks (GANs) \cite{socialgan,liu2019naomi}. Our work falls into the first category where we model the distributions parametrically. Parametric models allow us to evaluate the likelihood of future trajectories, which are useful for downstream planning tasks \cite{multipath, schwarting2018planning}.
+
+%\cite{propogating} studies how perceptual uncertainty can be incorporated into trajectory prediction. 
+Despite the development in probabilistic modeling, there is no standard metric for quantifying uncertainty of the prediction. Negative log likelihood often overfits the distribution \cite{guo2017calibration}, and best-of-n-sample results do not evaluate the full distribution \cite{rethinking}. We argue that probabilistic forecasts should accurately reflect the uncertainty in the model predictions. We propose using proper scoring rules such as Energy Score or mean interval score \cite{properscoring} for evaluating probabilistic forecasts. 
+% For example, in the scenario of an intersection where there are many possible futures, nll-based methods often collapses to the most likely mode and underestimate the possible range of trajectories, whereas an interval-based method would \ry{what?}. %\sofi{example for MIS}
+%Furthermore, by leveraging the internal symmetries of trajectories, our model produces more accurate and calibrated probabilistic forecasts.
+
+
+%cite papers form ICLR ICML NeurIPS CVPR likely from community - reduce intelligent transport 
+
+\paragraph{Equivariant Deep Learning.}
+Geometric deep learning that leverages invariance and symmetries has found wide applications in areas ranging from image recognition \cite{bao2019equivariant, worrall2017harmonic, weiler2019e2cnn} to reinforcement learning \cite{equimdp}. Equivariant neural networks are studied for modeling dynamics as well - \cite{fuchs2020se} use $\mathrm{SE}(3)$-equivariant transformers to predict trajectories for a small number of particles as a regression task, and \cite{ecco} proposed a $\mathrm{S0}(2)$ equivariant continuous convolution for traffic trajectory prediction. All the methods mentioned above are deterministic. \cite{kohler2020equivariant} and \cite{ennormalizingflows} studies equivariant normalizing flows for modeling symmetric densities, however their domains focus on generative modeling and therefore differ from our work significantly. To our knowledge, no previous work has studied equivariant neural networks for probabilistic dynamics forecasting. 
+
+\paragraph{Uncertainty Quantification (UQ).}
+Uncertainty quantification is critical for risk assessment in safety-critical domains. Properly quantified uncertainties can be used to create probabilistic constraints and generate more robust planning and control strategies \cite{ostafew2016learning, bujarbaruah2019adaptive}. With the increasing use of deep learning in forecasting tasks, many works have UQ for neural networks \cite{saftyassurance, wu2021quantifying, guo2017calibration}. \cite{2021conformal} proposes a conformal prediction algorithm for 1D RNN forecasters with a prediction region with coverage guarantees. However, these works focus only on classification or 1-dimensional forecasts. \cite{salinas2019high, salinas2020deepar} use autoregressive RNNs for probabilistic forecasting of multiple time series, however, their method cannot explicitly model spatial relations. We present a model design for multi-agent dynamics and produce probabilistic distributions with better calibration.
+% In our experiments, we show that the uncertainty distributions produced by deep generative models for trajectory forecasting are often not calibrated. Hence, better UQ methods are needed. In this work, we expand metrics from quantile and conformal prediction to the multivariate setting, and introduce a method to evaluate forecasted uncertainties.

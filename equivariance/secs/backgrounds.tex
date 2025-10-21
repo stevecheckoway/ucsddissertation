@@ -1,0 +1,62 @@
+We give a short background on  symmetry and equivariance and their probabilistic extension.
+%
+\paragraph{Symmetry and Equivariance.}\label{subsec:symmetry}
+A \emph{symmetry group} $G$  is a set together with a composition operation $\circ \colon G \times G \to G$ which is associative and has an identity and inverses. The group $G$ can transform a vector space $V$ by specifying a \emph{representation} which is a mapping $\rho \colon G \to \mathrm{GL}_n(V)$ sending each element of the group $G$ to an invertible $n \times n$ matrix such that $\rho(g_1 \circ g_2) = \rho(g_1) \rho(g_2)$.  
+
+Given a function $f \colon X \to Y$ such that $G$ has representations $\rho_X$ and $\rho_Y$ acting on $X$ and $Y$ respectively, we say $f$ is $G$-\emph{equivariant} if for all $x \in X$ and $g \in G$, we have $\rho_Y(g)f(x) = f(\rho_X(g) x )$.  That is, a transformation of the input of $x$ induces a corresponding transformation of the output.  \emph{Invariance} for the function $f$ is a special case in which $\rho_Y(g)y = y$. 
+
+% \paragraph{\texorpdfstring{$\mathbf{SO(2)}$}{SO(2)} Rotational Symmetry.}
+
+% In this paper, we consider  equivariance to 2D planar rotations, $\SOtwo = \{ \Rot_\theta : 0 \leq \theta < 2 \pi \}$
+% which has composition $\Rot_{\theta_1} \circ \Rot_{\theta_2} = \Rot_{(\theta_1 + \theta_2) \mathrm{mod} 2 \pi}$.  As a Lie group, $\SOtwo$ also has an underlying topological structure given by the manifold $S^1 \cong \lbrace \rvx \in \mathbb{R}^2 : \| \rvx \|=1 \rbrace$.  
+% Here, we consider two specific representations of $\SOtwo$. 
+% The \textit{standard representation} $\rho_1$ on $\mathbb{R}^2$ is by $2 \times 2$ rotation matrices. The \textit{regular representation} $\rhoreg$ on $L^2(\SOtwo) = \lbrace \varphi: \SOtwo \to \mathbb{R} : |\varphi|^2 \text{ is integrable} \rbrace$ is  $\rhoreg(\Rot_\phi)(\varphi) = \varphi \circ \Rot_{-\phi}$. Here $L^2$
+% is a Hilbert space.
+
+\paragraph{\texorpdfstring{$\mathbf{SO(2)}$}{SO(2)} Equivariant Continuous Convolution.}
+% - ECOO impliments SO(2)-equiv cts conv.
+% - add eqn for cts conv
+Continuous convolution \cite{ummenhofer2019lagrangian} generalizes discrete convolution. The feature vector $\mathbf{f}^{(i)} \in \mathbb{R}^{c_\mathrm{in}}$ of particle $i$ forms a vector field $\mathbf{f}$, and the kernel of the convolution $K: \mathbb{R}^2 \mapsto \mathbb{R}^{c_\mathrm{out}\times c_\mathrm{in}}$ forms a matrix field: for each point $\mathbf{x} \in \mathbb{R}^2$, $K(\mathbf{x})$ is a $c_\mathrm{out}\times c_\mathrm{in}$ matrix. The continuous convolution is then defined by 
+\[
+ \mathbf{g}^{(i)} = \sum_j a(\|\mathbf{x}^{(j)} - \mathbf{x}^{(i)}\|) K(\mathbf{x}^{(j)} - \mathbf{x}^{(i)}) \cdot \mathbf{f}^{(j)}.
+\]
+By \cite{weiler2019e2cnn}, this is $\SOtwo$-equivariant if 
+$
+K(gv) = \rho_\mathrm{out}(g) K(v) \rho_\mathrm{in}(g^{-1})$.
+
+ECCO \cite{ecco} defines the convolution kernel $K$ in polar coordinates $K(\theta, r)$. Let $\mathbb{R}^{c_\mathrm{in}}$ and $\mathbb{R}^{c_\mathrm{out}}$ be $\SOtwo$-representations $\rho_\mathrm{in}$ and $\rho_\mathrm{out}$ respectively, then the convolution kernel satisfies the equivariance condition as follows, making the continuous convolution $\SOtwo$-equivariant.
+\[
+ K(\theta + \phi, r) = \rho_\mathrm{out}(\mathrm{Rot}_\theta) K(\phi,r)\rho_\mathrm{in}(\mathrm{Rot}_\theta^{-1})
+\]
+
+
+%We say a function $f$ is group equivariant iff it satisfies 
+%\[\rho(g) f(x) = f(\rho'g(x))  \] where $\rho(\cdot)$ and $\rho'(\cdot)$ are the representation of the group $g \in G$.
+
+% If $X$ is a random variable, we need to define an estimator $\delta$ such that $\delta$ is G-equivariant.
+% \[  \rho(g) \delta(x) = \delta (\rho'(g(x)), \quad \forall x \sim p(x) \]
+% For example, $\delta$ can be the maximum likelihood estimator of a distribution. That is 
+% \begin{equation}
+%     \delta(X) = \max_{\theta} \sum_{i=1}^N \log p(\V{x}^{(i)}), \quad  \T{P}(X) = \{ p_{\theta}(\V{x}): \V{x}\in \Omega \}
+%     \label{eqn:mle}
+% \end{equation}
+% where $\V{x} = (x_1, \cdots, x_T)$
+% For a sequence of random variables, such as uncorrelated  standard normal distribution, it is rotational invariant. 
+
+% \sofi{the definition of equivariance in a probabilistic setting (check frank noe papers for presentation and citations)}
+
+% \ry{generalize De Finetti's theorem to other groups}
+
+% Group action 
+% \sofi{ROT function on a distribution (map from R2 to [0,1] satisfying integration to 1). Assume f is a gaussian PDF, show that it naturally extends. make whole story}
+
+
+\paragraph{Calibration and Sharpness of Probabilistic Prediction.} 
+It is desirable for a probabilistic prediction to be both \textit{calibrated} and \textit{sharp}. A model is \textit{calibrated} when the predicted probability correspond to the true probability of an event. In forecasting, calibration is often measured with \textit{coverage}, the probability of ground truth ${Y}$ falls into prediction region of confidence $\Hat{C}^{1-\alpha}$, $1-\alpha \in [0,1]$. 
+\begin{align}
+    P(Y \in \Hat{C}^{1-\alpha}) \geq 1- \alpha
+    \label{eq:coverage}
+\end{align}
+%The forecast is \textit{valid} if it satisfies \autoref{eq:coverage}, and calibrated in case of equality.
+Note that one can always obtain a calibrated prediction region by setting $\Hat{C}^{1-\alpha}$ to be the entire $Y$ space. We introduce the concept of  \textit{Sharpness}, which refers to the size of the prediction region $|\Hat{C}^{1-\alpha}|$. The balance between calibration and sharpness can be measured by a class of metrics called proper scoring rules \cite{properscoring}.
+\vskip -0.1 in

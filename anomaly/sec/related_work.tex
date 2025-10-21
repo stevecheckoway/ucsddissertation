@@ -1,0 +1,9 @@
+\section{Related Work}
+\vspace{-0.2em}
+\textbf{Dynamic thresholding for AD.} AD is an extensively researched topic, where a common paradigm is to first model data likelihood and then use a threshold to decide if a data point is normal or anomalous. This threshold is typically determined by an expert or offline through cross-validation \cite{luo2021deep, schmidl2022anomaly}. Dynamic and automatic methods makes AD algorithms more practical in real-world deployment \cite{ali2013automated, hundman2018detecting}, and are necessary where the data distribution can shift \cite{siffer2017anomaly}.  Our work is the first to provide abstain and mistake bounds on dynamic thresholding without assumptions on the underlying data distribution. Appendix \ref{app:related} contains more related work. %Using learned threshold to make binary decision of seeking labels from human experts are studied in active learning \cite{balcan2007margin, zhang2016online,vishwakarma2023promises}. However, active learning does not have a concept of mistakes and is thus different from ours. 
+
+%\cite{siffer2017anomaly, , hundman2018detecting}
+%This work instead focuses on providing a principled analysis of the thresholding step that follows. Traditionally, and are chosen by heuristics . Works closer to us are thresholding algorithms for univariate online streams .
+%\vspace{-0.5em}
+\textbf{Confidence Sequences (CS).} We incorporate theoretical results of confidence sequences \cite{ramdas2022game} in our analysis. \cite{maharaj2023anytime, howard2022sequential} derived the CS algorithm for estimating quantiles online with any-time guarantees, and \cite{shekhar2023sequential} leverages CS for detecting distribution shifts. 
+\vspace{-0.5em}

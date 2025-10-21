@@ -1,0 +1,28 @@
+
+% \begin{abstract}
+% Accurate uncertainty measurement is a key step to building robust and reliable machine learning systems. Conformal prediction is a distribution-free uncertainty quantification algorithm popular for its ease of implementation, statistical coverage guarantees, and versatility for underlying forecasters. However, existing conformal prediction algorithms for time series are limited to single-step prediction without considering the temporal dependency. In this paper we propose a \textbf{Copula} \textbf{C}onformal \textbf{P}rediction algorithm for multivariate, multi-step \textbf{T}ime \textbf{S}eries forecasting, \textbf{CopulaCPTS}. On several synthetic and real-world multivariate  time series datasets,  we show that CopulaCPTS produces more calibrated and sharp confidence intervals for multi-step prediction tasks than existing techniques. 
+% \end{abstract}
+
+\section{Introduction}
+\input{copula/secs/intro}
+
+\section{Related Work}
+\input{copula/secs/related}
+
+
+\section{Background}
+\input{copula/secs/background}
+
+
+\section{Copula Conformal Prediction for Time Series (CopulaCPTS)}
+\input{copula/secs/methods}
+
+
+\section{Experiments}
+\input{copula/secs/exp}
+
+\section{Conclusion and Discussion}
+In this paper we present CopulaCPTS, a conformal prediction algorithm for multidimensional and multi-step time-series prediction. CopulaCPTS significantly improves calibration and efficiency of multi-step conformal confidence intervals by incorporating copulas to model the joint distribution of multiple timesteps. We prove that CopulaCPTS has finite sample validity guarantee. In our experiments we show that the algorithm outperforms state-of-the-art models on all 4 benchmark datasets and on varying prediction horizons. On the flip side, CopulaCPTS assumes that the copula estimation is accurate and we have calibration data for the entirety of the prediction horizon, even in the autoregressive case. We leave it to future work to relax these assumptions (for example by adjusting $\mathbf{u}^*$ online given prediction errors as in \cite{gibbs2021adaptive}) to make CopulaCPTS applicable to the online setting where distribution shift is present.
+
+
+\input{copula/secs/app}

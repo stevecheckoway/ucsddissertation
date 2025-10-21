@@ -1,0 +1,230 @@
+\documentclass[12pt]{ucsddissertation}
+% mathptmx is a Times Roman look-alike (don't use the times package)
+% It isn't clear if Times is required. The OGS manual lists several
+% "standard fonts" but never says they need to be used.
+%\usepackage{mathptmx}
+\usepackage[NoDate]{currvita}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{ragged2e}
+\usepackage{microtype}
+\usepackage[breaklinks=true,pdfborder={0 0 0}]{hyperref}
+\usepackage{graphicx}
+
+\AtBeginDocument{%
+	\settowidth\cvlabelwidth{\cvlabelfont 0000--0000}%
+}
+
+% OGS recommends increasing the margins slightly.
+\increasemargins{.1in}
+
+\input{math_commands.tex}
+%\captionsetup[table]{skip=10pt}
+
+% ---
+
+% Required information
+\title{Probabilistic Deep Learning for Uncertainty Quantification and Decision-Making}
+\author{Sophia Huiwen Sun}
+\degree{Computer Science}{Doctor of Philosophy}
+% Each member of the committee should be listed as Professor Foo Bar.
+% If Professor is not the correct title for one, then titles should be
+% omitted entirely.
+\chair{Professor Eta Theta}
+\cochair{Professor Gamma Delta} % Optional
+% Your committee members (other than the chairs) must be in alphabetical order
+\committee{Professor Lambda Kappa}
+\committee{Professor Iota Mu}
+\committee{Professor Epsilon Zeta}
+\degreeyear{2025}
+
+% Start the document
+\begin{document}
+% Begin with frontmatter and so forth
+\frontmatter
+\maketitle
+\makecopyright
+\makesignature
+% Optional
+\begin{dedication}
+\setsinglespacing
+\raggedright % It would be better to use \RaggedRight from ragged2e
+\parindent0pt\parskip\baselineskip
+In recognition of reading this manual before beginning to format the
+doctoral dissertation or master's thesis; for following the
+instructions written herein; for consulting with OGS Academic Affairs
+Advisers; and for not relying on other completed manuscripts, this
+manual is dedicated to all graduate students about to complete the
+doctoral dissertation or master's thesis.
+
+In recognition that this is my one chance to use whichever
+justification, spacing, writing style, text size, and/or textfont that
+I want to while still keeping my headings and margins consistent.
+\end{dedication}
+% Optional
+\begin{epigraph}
+% \vfil
+% \begin{center}
+% Reason is just as cunning as she is powerful. Her cunning consists principally in her mediating activity, which, by causing objects to act and re-act on each other in accordance with their own nature, in this way, without any direct interference in the process, carries out reason's intentions.
+% \vskip\baselineskip
+% \textit{-- G. W. F. Hegel }
+% \end{center}
+% \vfil
+\vskip0pt plus.5fil
+\setsinglespacing
+{\flushright
+“We demand rigidly defined areas of doubt and uncertainty!”
+\vskip\baselineskip
+-- Vroomfondel in \textit{The Hitchhiker’s Guide to the Galaxy},  \\ by Douglas Adams \par }
+\vfil
+
+% \noindent Writing, at its best, is a lonely life. Organizations for
+% writers palliate the writer's loneliness, but I doubt if they improve
+% his writing. He grows in public stature as he sheds his loneliness and
+% often his work deteriorates. For he does his work alone and if he is a
+% good enough writer he must face eternity, or the lack of it, each day.
+
+% \vskip\baselineskip
+% \hskip0pt plus1fil\textit{Ernest Hemingway}\hskip0pt plus4fil\null
+
+% \vfil
+\end{epigraph}
+
+% Next comes the table of contents, list of figures, list of tables,
+% etc. If you have code listings, you can use \listoflistings (or
+% \lstlistoflistings) to have it be produced here as well. Same with
+% \listofalgorithms.
+\tableofcontents
+\listoffigures
+\listoftables
+
+% Preface
+% \begin{preface}
+% Almost nothing is said in the manual about the preface. There is no
+% indication about how it is to be typeset. Given that, one is forced to
+% simply typeset it and hope it is accepted. It is, however, optional
+% and may be omitted.
+% \end{preface}
+
+% Your fancy acks here. Keep in mind you need to ack each paper you
+% use. See the examples here. In addition, each chapter ack needs to
+% be repeated at the end of the relevant chapter.
+\begin{acknowledgements}
+I would like to acknowledge Professor Eta Theta for his support as the
+chair of my committee. Through multiple drafts and many long nights,
+his guidance has proved to be invaluable.
+
+I would also like to acknowledge the ``Smith Clan'' of lab~28, without
+whom my research would have no doubt taken fives times as long. It is
+their support that helped me in an immeasureable way.
+
+Chapter 2, in full, is a reprint of the material as it appears in
+Numerical Grid Generational in Computational Fluid Mechanics~2009.
+Smith, Laura; Smith, Jane~D., Pineridge Press,~2009. The dissertation
+author was the primary investigator and author of this paper.
+
+Chapter 3, in part, has been submitted for publication of the material
+as it may appear in Education Mechanics,~2009, Smith, Laura; Smith,
+Jane~D., Trailor Press,~2009. The dissertation author was the primary
+investigator and author of this paper.
+
+Chapter 5, in part is currently being prepared for submission for
+publication of the material. Smith, Laura; Smith, Jane~D\@. The
+dissertation author was the primary investigator and author of this
+material.
+\end{acknowledgements}
+
+% Stupid vita goes next
+% \begin{vita}
+% \noindent
+% \begin{cv}{}
+% \begin{cvlist}{}
+% \item[2018] Bachelor of Arts, Wellesley College
+% \item[2025] Doctor of Philosophy, University of California, San Diego
+% \end{cvlist}
+% \end{cv}
+
+% This puts in the PUBLICATIONS header. Note that it appears inside
+% % the vita environment. It is optional.
+% \publications
+% \noindent``Distributions of Control Points in a System for Analysis of Stress
+% Distribution'' IRE Transactions of the I.R.E\@. Professional Group on
+% Automatic Control, vol. AC-7, pp 272--289, September 2005
+
+% This puts in the FIELDS OF STUDY. Also inside vita and also
+% % optional.
+% \fieldsofstudy
+% \noindent Major Field: Engineering (Specialization or Focused Studies)
+% \vskip\baselineskip
+% Studies in Applied Mathematics\par
+% Professors Alpha Beta and Gamma Delta
+% \vskip\baselineskip
+% Studies in Mechanices\par
+% Professors Epsilon Zeta and Eta Theta
+% \vskip\baselineskip
+% Studies in Electromagnetism\par
+% Professors Iota Kappa and Lambda Mu
+% \end{vita}
+
+% Put your maximum 350 word abstract here.
+\begin{dissertationabstract}
+The Abstract begins here. The abstract is limited to 350 words for a
+doctoral dissertation. It should consist of a short statement of the
+problem, a brief explanation of the methods and procedures employed in
+generating the data, and a condensed summary of the findings of the
+study. The abstract may continute onto a second page if necessary. The
+text of the abstract must be double spaced.
+\end{dissertationabstract}
+
+% This is where the main body of your dissertation goes!
+\mainmatter
+
+% Optional Introduction
+% \begin{dissertationintroduction}
+% \end{dissertationintroduction}
+
+\chapter{Introduction}
+\input{introduction/background}
+\input{introduction/significance}
+\input{introduction/problem}
+
+\part{Uncertainty Quantification of Time Series Models}
+
+\chapter{Probabilistic Equivariance of Dynamics Modeling}
+\input{equivariance/main}
+
+\chapter{Copula Conformal prediction for multi-step time series prediction}
+\input{copula/main}
+
+\chapter{Conformal Prediction for Time-series Forecasting with Change Points}
+\input{changepoints/main}
+
+
+\part{Time series UQ for decision making: applications}
+\chapter{Online adaptive anomaly thresholding with confidence sequences}
+\input{anomaly/main}
+
+\chapter{Learning for Mechanical Circulatory Support (MCS) devices}
+
+
+\chapter{Uncertainty Quantification for Large Language Model Assistants}
+
+
+
+% \part{Exploring Ambiguity in Creative AI}
+% \chapter{Karaoke of Dreams}
+% \chapter{Learning to Move, Learning to Play, Learning to Animate}
+
+\part{Conclusion and Future works}
+\chapter{Summary and Discussion}
+\chapter{Future Works}
+
+\appendix
+
+% Stuff at the end of the dissertation goes in the back matter
+\backmatter
+\bibliographystyle{plain} % Or whatever style you want like plainnat
+\bibliography{references}
+
+\end{document}
